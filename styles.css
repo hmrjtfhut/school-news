@@ -94,7 +94,7 @@ article {
 }
 
 form {
-    max-width: 350px; /* Increased width for a larger square */
+    max-width: 300px; /* Increased width for a larger square */
     margin: 0 auto; /* Centering the form */
     background-color: white;
     padding: 1.5em; /* Increased padding */
