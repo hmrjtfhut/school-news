@@ -94,12 +94,12 @@ article {
 }
 
 form {
-    max-width: 300px;
+    max-width: 320px; /* Increased width for a larger square */
     margin: 0 auto; /* Centering the form */
     background-color: white;
-    padding: 1em;
+    padding: 1.5em; /* Increased padding */
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 form label {
