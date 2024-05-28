@@ -1,134 +1,93 @@
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
+    background-color: #e6f7ff; /* Light blue background */
     margin: 0;
     padding: 0;
-    background-color: #d3eaff;
-    color: #333;
-    text-align: center;
 }
 
 header {
-    background: #333;
-    color: #fff;
-    padding: 1rem 0;
-}
-
-header h1 {
-    margin: 0;
+    background-color: #007acc;
+    color: white;
+    padding: 1em;
+    text-align: center;
 }
 
 nav ul {
-    list-style: none;
+    list-style-type: none;
+    margin: 0;
     padding: 0;
+    overflow: hidden;
+    background-color: #333;
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 10px;
+    float: left;
+}
+
+nav ul li.right {
+    float: right;
 }
 
 nav ul li a {
-    color: #fff;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
     text-decoration: none;
 }
 
-main {
-    padding: 20px;
+nav ul li a:hover {
+    background-color: #111;
 }
 
-section {
-    margin: 20px 0;
-}
-
-footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Hide sections by default */
 section {
     display: none;
+    padding: 1em;
 }
 
-/* Show the active section */
 section.active {
     display: block;
 }
 
-/* Center the form and its elements */
-form {
-    display: inline-block;
-    text-align: left;
-    margin-top: 20px;
-}
-
-label, input {
-    display: block;
-    margin-bottom: 10px;
-}
-
-button {
-    display: block;
-    margin-top: 10px;
+h2 {
+    text-align: center;
 }
 
 article {
-    position: relative;
-    padding-bottom: 40px;
+    background-color: white;
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.like-buttons {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.like-buttons button {
-    background: none;
-    border: none;
-    font-size: 1.5em;
+.like-btn, .dislike-btn {
+    margin-right: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     cursor: pointer;
-    margin: 0 5px;
 }
 
-.like-buttons button span {
-    margin-left: 5px;
-    font-size: 0.8em;
+.like-btn:hover, .dislike-btn:hover {
+    background-color: #e0e0e0;
 }
 
 #chat-messages {
-    width: 80%;
-    height: 300px;
     border: 1px solid #ccc;
-    margin: 20px auto;
     padding: 10px;
-    overflow-y: auto;
-    background: #fff;
-    text-align: left;
+    height: 200px;
+    overflow-y: scroll;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 #chat-input {
-    width: 80%;
-    height: 50px;
-    margin: 10px auto;
-    display: block;
+    width: calc(100% - 70px);
+    padding: 10px;
 }
 
 #send-chat {
-    display: block;
-    margin: 10px auto;
-    background: #333;
-    color: #fff;
-    border: none;
     padding: 10px;
-    cursor: pointer;
 }
