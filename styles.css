@@ -60,3 +60,20 @@ section {
 section.active {
     display: block;
 }
+
+/* Center the form and its elements */
+form {
+    display: inline-block;
+    text-align: left;
+    margin-top: 20px;
+}
+
+label, input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+button {
+    display: block;
+    margin-top: 10px;
+}
