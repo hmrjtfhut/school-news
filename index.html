@@ -15,6 +15,7 @@
                 <li><a href="#news" id="news-link">News</a></li>
                 <li><a href="#events" id="events-link">Events</a></li>
                 <li><a href="#contact" id="contact-link">Contact</a></li>
+                <li><a href="#login" id="login-link">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -48,6 +49,20 @@
         <section id="contact">
             <h2>Contact</h2>
             <p>Contact us at: <a href="mailto:wlsnewssite@gmail.com">wlsnewssite@gmail.com</a></p>
+        </section>
+
+        <section id="login">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Login</button>
+                <p id="login-error" style="color:red; display:none;">Invalid username or password</p>
+            </form>
         </section>
     </main>
 
