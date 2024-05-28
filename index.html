@@ -11,95 +11,79 @@
         <h1>WLS School News</h1>
         <nav>
             <ul>
-                <li><a href="#home" id="home-link">Home</a></li>
-                <li><a href="#news" id="news-link">News</a></li>
-                <li><a href="#events" id="events-link">Events</a></li>
-                <li><a href="#contact" id="contact-link">Contact</a></li>
-                <li><a href="#login" id="login-link">Login</a></li>
-                <li><a href="#register" id="register-link">Register</a></li>
-                <li><a href="#chat" id="chat-link">Chat Room</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#chat">Chat Room</a></li>
+                <li class="right"><a href="#login">Login</a></li>
+                <li class="right"><a href="#register">Register</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section id="home" class="active">
-            <h2>Welcome to WLS School News</h2>
-            <p>Stay updated with the latest news and events from our school.</p>
-        </section>
+    <section id="home" class="active">
+        <h2>Welcome to WLS School News</h2>
+        <p>This is the home page.</p>
+    </section>
 
-        <section id="news">
-            <h2>Latest News</h2>
-            <article data-article-id="1">
-                <h3>News Title 1</h3>
-                <p>This is a brief description of the first news item.</p>
-                <div class="like-buttons">
-                    <button class="like-btn" data-article-id="1">👍 <span class="like-count">0</span></button>
-                    <button class="dislike-btn" data-article-id="1">👎 <span class="dislike-count">0</span></button>
-                </div>
-            </article>
-            <article data-article-id="2">
-                <h3>News Title 2</h3>
-                <p>This is a brief description of the second news item.</p>
-                <div class="like-buttons">
-                    <button class="like-btn" data-article-id="2">👍 <span class="like-count">0</span></button>
-                    <button class="dislike-btn" data-article-id="2">👎 <span class="dislike-count">0</span></button>
-                </div>
-            </article>
-        </section>
+    <section id="news">
+        <h2>News</h2>
+        <article class="news-item" data-article-id="1">
+            <h3>News Story 1</h3>
+            <p>This is the first news story.</p>
+            <button class="like-btn" data-article-id="1"><span class="like-count">0</span> 👍</button>
+            <button class="dislike-btn" data-article-id="1"><span class="dislike-count">0</span> 👎</button>
+        </article>
+        <article class="news-item" data-article-id="2">
+            <h3>News Story 2</h3>
+            <p>This is the second news story.</p>
+            <button class="like-btn" data-article-id="2"><span class="like-count">0</span> 👍</button>
+            <button class="dislike-btn" data-article-id="2"><span class="dislike-count">0</span> 👎</button>
+        </article>
+    </section>
 
-        <section id="events">
-            <h2>Upcoming Events</h2>
-            <ul>
-                <li>Event 1 - Date</li>
-                <li>Event 2 - Date</li>
-            </ul>
-        </section>
+    <section id="events">
+        <h2>Events</h2>
+        <article class="event-item">
+            <h3>Event 1</h3>
+            <p>This is the first event.</p>
+        </article>
+        <article class="event-item">
+            <h3>Event 2</h3>
+            <p>This is the second event.</p>
+        </article>
+    </section>
 
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Contact us at: <a href="mailto:wlsnewssite@gmail.com">wlsnewssite@gmail.com</a></p>
-        </section>
+    <section id="chat">
+        <h2>Chat Room</h2>
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Type a message...">
+        <button id="send-chat">Send</button>
+    </section>
 
-        <section id="login">
-            <h2>Login</h2>
-            <form id="login-form">
-                <label for="login-username">Username:</label>
-                <input type="text" id="login-username" name="username" required>
-                <br>
-                <label for="login-password">Password:</label>
-                <input type="password" id="login-password" name="password" required>
-                <br>
-                <button type="submit">Login</button>
-                <p id="login-error" style="color:red; display:none;">Invalid username or password</p>
-            </form>
-        </section>
+    <section id="login">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="login-error" style="display: none; color: red;">Invalid username or password.</p>
+    </section>
 
-        <section id="register">
-            <h2>Register</h2>
-            <form id="register-form">
-                <label for="register-username">Username:</label>
-                <input type="text" id="register-username" name="username" required>
-                <br>
-                <label for="register-password">Password:</label>
-                <input type="password" id="register-password" name="password" required>
-                <br>
-                <button type="submit">Register</button>
-                <p id="register-success" style="color:green; display:none;">Registration successful! You can now login.</p>
-            </form>
-        </section>
-
-        <section id="chat">
-            <h2>Chat Room</h2>
-            <div id="chat-messages"></div>
-            <textarea id="chat-input" placeholder="Enter your message"></textarea>
-            <button id="send-chat">Send</button>
-        </section>
-    </main>
-
-    <footer>
-        <p>Contact us at: <a href="mailto:wlsnewssite@gmail.com">wlsnewssite@gmail.com</a></p>
-    </footer>
+    <section id="register">
+        <h2>Register</h2>
+        <form id="register-form">
+            <label for="register-username">Username:</label>
+            <input type="text" id="register-username" required>
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="register-success" style="display: none; color: green;">Registration successful!</p>
+    </section>
 
     <script src="script.js"></script>
 </body>
