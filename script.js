@@ -172,6 +172,18 @@ document.addEventListener("DOMContentLoaded", function() {
             chatMessage.innerHTML = `<strong>${chat.username}:</strong> ${chat.message}`;
             chatMessages.appendChild(chatMessage);
         });
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    // Polling mechanism to reload chat messages
+    function pollChatMessages() {
+        setInterval(() => {
+            const updatedChatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+            if (updatedChatHistory.length !== chatHistory.length) {
+                chatHistory = updatedChatHistory;
+                renderChatMessages();
+            }
+        }, 1000); // Poll every second
     }
 
     // Handle file upload
@@ -221,5 +233,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initialize app
     renderNewsPosts();
     renderChatMessages();
+    pollChatMessages(); // Start polling for chat messages
     showSection("#home");
 });
