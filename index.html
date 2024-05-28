@@ -86,6 +86,21 @@
         <p id="register-error" style="display: none; color: red;">Email already in use.</p>
     </section>
 
+    <!-- Edit Post Modal -->
+    <div id="edit-post-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Post</h2>
+            <form id="edit-post-form">
+                <label for="edit-post-title">Title:</label>
+                <input type="text" id="edit-post-title" required>
+                <label for="edit-post-content">Content:</label>
+                <textarea id="edit-post-content" required></textarea>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
