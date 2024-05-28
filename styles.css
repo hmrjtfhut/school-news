@@ -97,10 +97,22 @@ article {
     border: none;
     font-size: 1.5em;
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 .like-buttons button span {
     margin-left: 5px;
     font-size: 0.8em;
+}
+
+.like-list, .dislike-list {
+    display: none;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.comment-btn {
+    display: block;
+    margin: 20px auto;
+    cursor: pointer;
 }
