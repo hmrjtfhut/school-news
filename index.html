@@ -43,7 +43,7 @@
                 <div class="comment-section" data-article-id="1">
                     <h4>Comments</h4>
                     <div class="comments-list"></div>
-                    <textarea class="comment-input" placeholder="Add a comment"></textarea>
+                    <textarea class="comment-input" data-article-id="1" placeholder="Add a comment"></textarea>
                     <button class="submit-comment" data-article-id="1">Submit</button>
                 </div>
             </article>
@@ -61,7 +61,7 @@
                 <div class="comment-section" data-article-id="2">
                     <h4>Comments</h4>
                     <div class="comments-list"></div>
-                    <textarea class="comment-input" placeholder="Add a comment"></textarea>
+                    <textarea class="comment-input" data-article-id="2" placeholder="Add a comment"></textarea>
                     <button class="submit-comment" data-article-id="2">Submit</button>
                 </div>
             </article>
@@ -112,6 +112,13 @@
     <footer>
         <p>Contact us at: <a href="mailto:wlsnewssite@gmail.com">wlsnewssite@gmail.com</a></p>
     </footer>
+
+    <button id="comment-btn">Add Comment</button>
+    <div id="comment-modal">
+        <h4>Add Your Comment</h4>
+        <textarea id="comment-input" placeholder="Add a comment"></textarea>
+        <button id="submit-comment">Submit</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
