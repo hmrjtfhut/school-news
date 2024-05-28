@@ -240,13 +240,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
         document.querySelectorAll(".edit-btn").forEach(button => {
             button.addEventListener("click", function() {
-                // Edit functionality
+                const articleId = this.getAttribute("data-article-id");
+                const post = news.find(post => post.id === parseInt(articleId));
+                const newTitle = prompt("Enter new title:", post.title);
+                const newContent = prompt("Enter new content:", post.content);
+                if (newTitle && newContent) {
+                    post.title = newTitle;
+                    post.content = newContent;
+                    localStorage.setItem("news", JSON.stringify(news));
+                    displayNewsPosts();
+                }
             });
         });
 
         document.querySelectorAll(".delete-btn").forEach(button => {
             button.addEventListener("click", function() {
-                // Delete functionality
+                const articleId = this.getAttribute("data-article-id");
+                if (confirm("Are you sure you want to delete this post?")) {
+                    news = news.filter(post => post.id !== parseInt(articleId));
+                    localStorage.setItem("news", JSON.stringify(news));
+                    displayNewsPosts();
+                }
             });
         });
     }
