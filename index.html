@@ -78,11 +78,14 @@
         <form id="register-form">
             <label for="register-username">Username:</label>
             <input type="text" id="register-username" required>
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" required>
             <label for="register-password">Password:</label>
             <input type="password" id="register-password" required>
             <button type="submit">Register</button>
         </form>
         <p id="register-success" style="display: none; color: green;">Registration successful!</p>
+        <p id="register-error" style="display: none; color: red;">Email already in use.</p>
     </section>
 
     <script src="script.js"></script>
