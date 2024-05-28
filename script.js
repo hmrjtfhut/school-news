@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const registerSuccess = document.getElementById("register-success");
     const registerError = document.getElementById("register-error");
     const loginError = document.getElementById("login-error");
+    const likeButtons = document.querySelectorAll(".like-btn");
+    const dislikeButtons = document.querySelectorAll(".dislike-btn");
     const chatMessages = document.getElementById("chat-messages");
     const chatInput = document.getElementById("chat-input");
     const sendChat = document.getElementById("send-chat");
@@ -113,30 +115,26 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Update like and dislike counts
+    likeButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const articleId = this.getAttribute("data-article-id");
+            handleLikeDislike(articleId, true);
+        });
+    });
+
+    dislikeButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const articleId = this.getAttribute("data-article-id");
+            handleLikeDislike(articleId, false);
+        });
+    });
+
     function updateLikeCounts(articleId) {
         const likeCount = likes[articleId] ? likes[articleId].length : 0;
         const dislikeCount = dislikes[articleId] ? dislikes[articleId].length : 0;
 
         document.querySelector(`.like-count[data-article-id="${articleId}"]`).textContent = likeCount;
         document.querySelector(`.dislike-count[data-article-id="${articleId}"]`).textContent = dislikeCount;
-    }
-
-    // Add event listeners to like and dislike buttons
-    function initializeLikeButtons() {
-        document.querySelectorAll(".like-btn").forEach(button => {
-            button.addEventListener("click", function() {
-                const articleId = this.getAttribute("data-article-id");
-                handleLikeDislike(articleId, true);
-            });
-        });
-
-        document.querySelectorAll(".dislike-btn").forEach(button => {
-            button.addEventListener("click", function() {
-                const articleId = this.getAttribute("data-article-id");
-                handleLikeDislike(articleId, false);
-            });
-        });
     }
 
     // News post functionality
@@ -152,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function() {
         newPostForm.reset();
     });
 
-    // Display news posts
     function displayNewsPosts() {
         newsPosts.innerHTML = "";
         news.forEach(post => {
@@ -171,11 +168,10 @@ document.addEventListener("DOMContentLoaded", function() {
             newsPosts.appendChild(postElement);
         });
 
-        initializeLikeButtons();
+        initializeLikeCounts();
         addEditDeleteEventListeners();
     }
 
-    // Add event listeners to edit and delete buttons
     function addEditDeleteEventListeners() {
         document.querySelectorAll(".edit-post").forEach(button => {
             button.addEventListener("click", function() {
@@ -266,8 +262,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initialize like and dislike counts
     function initializeLikeCounts() {
-        document.querySelectorAll(".like-count").forEach(span => {
-            const articleId = span.getAttribute("data-article-id");
+        likeButtons.forEach(button => {
+            const articleId = button.getAttribute("data-article-id");
             updateLikeCounts(articleId);
         });
     }
