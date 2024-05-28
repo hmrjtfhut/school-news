@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const registerSuccess = document.getElementById("register-success");
     const likeButtons = document.querySelectorAll(".like-btn");
     const dislikeButtons = document.querySelectorAll(".dislike-btn");
+    const viewLikesButtons = document.querySelectorAll(".view-likes");
+    const viewDislikesButtons = document.querySelectorAll(".view-dislikes");
+    const commentButtons = document.querySelectorAll(".comment-btn");
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     let likes = JSON.parse(localStorage.getItem("likes")) || {};
@@ -34,32 +37,29 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Show home section by default
-    showSection("#home");
-
-    // Registration functionality
+    // Register form submit event
     registerForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("register-username").value;
         const password = document.getElementById("register-password").value;
 
-        const userExists = users.some(user => user.username === username);
-        if (!userExists) {
+        if (users.some(user => user.username === username)) {
+            alert("Username already taken.");
+        } else {
             users.push({ username, password });
             localStorage.setItem("users", JSON.stringify(users));
             registerSuccess.style.display = "block";
-        } else {
-            alert("Username already exists. Please choose a different username.");
         }
     });
 
-    // Login functionality
+    // Login form submit event
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
 
         const user = users.find(user => user.username === username && user.password === password);
+
         if (user) {
             loggedInUser = user;
             localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
@@ -138,14 +138,56 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    // View likes functionality
+    viewLikesButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const articleId = this.getAttribute("data-article-id");
+            const likeList = document.querySelector(`.like-list[data-article-id="${articleId}"]`);
+            if (likeList.style.display === "none" || likeList.style.display === "") {
+                likeList.innerHTML = likes[articleId].join(", ");
+                likeList.style.display = "block";
+            } else {
+                likeList.style.display = "none";
+            }
+        });
+    });
+
+    // View dislikes functionality
+    viewDislikesButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const articleId = this.getAttribute("data-article-id");
+            const dislikeList = document.querySelector(`.dislike-list[data-article-id="${articleId}"]`);
+            if (dislikeList.style.display === "none" || dislikeList.style.display === "") {
+                dislikeList.innerHTML = dislikes[articleId].join(", ");
+                dislikeList.style.display = "block";
+            } else {
+                dislikeList.style.display = "none";
+            }
+        });
+    });
+
+    // Comment button functionality
+    commentButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            if (loggedInUser) {
+                const comment = prompt("Enter your comment:");
+                if (comment) {
+                    alert("Comment submitted!");
+                }
+            } else {
+                alert("You need to be logged in to comment.");
+            }
+        });
+    });
+
     // Update like and dislike counts
     function updateLikeCounts(articleId) {
         const likeButton = document.querySelector(`.like-btn[data-article-id="${articleId}"]`);
         const dislikeButton = document.querySelector(`.dislike-btn[data-article-id="${articleId}"]`);
         const likeCount = likeButton.querySelector(".like-count");
         const dislikeCount = dislikeButton.querySelector(".dislike-count");
-        likeCount.textContent = likes[articleId].length;
-        dislikeCount.textContent = dislikes[articleId].length;
+        likeCount.textContent = likes[articleId] ? likes[articleId].length : 0;
+        dislikeCount.textContent = dislikes[articleId] ? dislikes[articleId].length : 0;
     }
 
     // Initialize like and dislike counts
