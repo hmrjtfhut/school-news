@@ -59,6 +59,7 @@ article {
     padding: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
+    position: relative;
 }
 
 form {
@@ -139,4 +140,63 @@ form button:hover {
 
 #news-posts article {
     margin-bottom: 20px;
+}
+
+.edit-btn, .delete-btn {
+    position: absolute;
+    top: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.edit-btn {
+    right: 60px;
+}
+
+.delete-btn {
+    right: 10px;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
