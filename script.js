@@ -156,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Chat functionality
     function displayChatMessages() {
         chatMessages.innerHTML = chatHistory.map(message => `<p><strong>${message.username}:</strong> ${message.text}</p>`).join("");
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     sendChat.addEventListener("click", function() {
@@ -178,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(function() {
         chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
         displayChatMessages();
-    }, 100); // Update every 0.10 seconds
+    }, 1000); // Update every 1 seconds
 
     // Initialize the app
     function initializeApp() {
