@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const registerSuccess = document.getElementById("register-success");
     const likeButtons = document.querySelectorAll(".like-btn");
     let users = JSON.parse(localStorage.getItem("users")) || [];
-    let loggedInUser = null;
+    let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    let likes = JSON.parse(localStorage.getItem("likes")) || {};
 
     // Function to hide all sections
     function hideAllSections() {
@@ -59,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const user = users.find(user => user.username === username && user.password === password);
         if (user) {
             loggedInUser = user;
+            localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
             alert("Login successful!");
             showSection("#home");
         } else {
@@ -66,16 +68,56 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Logout functionality
+    function logout() {
+        loggedInUser = null;
+        localStorage.removeItem("loggedInUser");
+        alert("Logged out successfully!");
+        showSection("#login");
+    }
+
     // Like functionality
     likeButtons.forEach(button => {
         button.addEventListener("click", function() {
             if (loggedInUser) {
-                const likeCount = this.querySelector(".like-count");
-                let count = parseInt(likeCount.textContent);
-                likeCount.textContent = count + 1;
+                const articleId = this.getAttribute("data-article-id");
+                if (!likes[articleId]) {
+                    likes[articleId] = [];
+                }
+                if (!likes[articleId].includes(loggedInUser.username)) {
+                    likes[articleId].push(loggedInUser.username);
+                    localStorage.setItem("likes", JSON.stringify(likes));
+                    const likeCount = this.querySelector(".like-count");
+                    let count = parseInt(likeCount.textContent);
+                    likeCount.textContent = count + 1;
+                } else {
+                    alert("You have already liked this post.");
+                }
             } else {
                 alert("You need to be logged in to like this post.");
             }
         });
     });
+
+    // Initialize like counts
+    function initializeLikeCounts() {
+        likeButtons.forEach(button => {
+            const articleId = button.getAttribute("data-article-id");
+            const likeCount = button.querySelector(".like-count");
+            likeCount.textContent = (likes[articleId] && likes[articleId].length) || 0;
+        });
+    }
+
+    // Initialize the app
+    function initialize() {
+        if (loggedInUser) {
+            alert(`Welcome back, ${loggedInUser.username}!`);
+            showSection("#home");
+        } else {
+            showSection("#login");
+        }
+        initializeLikeCounts();
+    }
+
+    initialize();
 });
