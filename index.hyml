@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School News</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>School News</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>Welcome to the School News Site</h2>
+            <p>Stay updated with the latest news and events from our school.</p>
+        </section>
+
+        <section id="news">
+            <h2>Latest News</h2>
+            <article>
+                <h3>News Title 1</h3>
+                <p>This is a brief description of the first news item.</p>
+            </article>
+            <article>
+                <h3>News Title 2</h3>
+                <p>This is a brief description of the second news item.</p>
+            </article>
+        </section>
+
+        <section id="events">
+            <h2>Upcoming Events</h2>
+            <ul>
+                <li>Event 1 - Date</li>
+                <li>Event 2 - Date</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Contact us at: <a href="mailto:info@schoolnews.com">info@schoolnews.com</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
