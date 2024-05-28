@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(function() {
         chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
         displayChatMessages();
-    }, 1000); // Update every 1 seconds
+    }, 10000); // Update every 10 seconds
 
     // Initialize the app
     function initializeApp() {
