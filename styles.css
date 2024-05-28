@@ -49,3 +49,13 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+/* Hide sections by default */
+section {
+    display: none;
+}
+
+/* Show the active section */
+section.active {
+    display: block;
+}
