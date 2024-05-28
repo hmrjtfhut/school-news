@@ -156,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Chat functionality
     function displayChatMessages() {
         chatMessages.innerHTML = chatHistory.map(message => `<p><strong>${message.username}:</strong> ${message.text}</p>`).join("");
-        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     sendChat.addEventListener("click", function() {
