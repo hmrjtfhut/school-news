@@ -17,6 +17,7 @@
                 <li><a href="#contact" id="contact-link">Contact</a></li>
                 <li><a href="#login" id="login-link">Login</a></li>
                 <li><a href="#register" id="register-link">Register</a></li>
+                <li><a href="#chat" id="chat-link">Chat Room</a></li>
             </ul>
         </nav>
     </header>
@@ -33,36 +34,16 @@
                 <h3>News Title 1</h3>
                 <p>This is a brief description of the first news item.</p>
                 <div class="like-buttons">
-                    <button class="view-likes" data-article-id="1">↓</button>
                     <button class="like-btn" data-article-id="1">👍 <span class="like-count">0</span></button>
                     <button class="dislike-btn" data-article-id="1">👎 <span class="dislike-count">0</span></button>
-                    <button class="view-dislikes" data-article-id="1">↓</button>
-                </div>
-                <div class="like-list" data-article-id="1"></div>
-                <div class="dislike-list" data-article-id="1"></div>
-                <div class="comment-section" data-article-id="1">
-                    <h4>Comments</h4>
-                    <div class="comments-list"></div>
-                    <textarea class="comment-input" data-article-id="1" placeholder="Add a comment"></textarea>
-                    <button class="submit-comment" data-article-id="1">Submit</button>
                 </div>
             </article>
             <article data-article-id="2">
                 <h3>News Title 2</h3>
                 <p>This is a brief description of the second news item.</p>
                 <div class="like-buttons">
-                    <button class="view-likes" data-article-id="2">↓</button>
                     <button class="like-btn" data-article-id="2">👍 <span class="like-count">0</span></button>
                     <button class="dislike-btn" data-article-id="2">👎 <span class="dislike-count">0</span></button>
-                    <button class="view-dislikes" data-article-id="2">↓</button>
-                </div>
-                <div class="like-list" data-article-id="2"></div>
-                <div class="dislike-list" data-article-id="2"></div>
-                <div class="comment-section" data-article-id="2">
-                    <h4>Comments</h4>
-                    <div class="comments-list"></div>
-                    <textarea class="comment-input" data-article-id="2" placeholder="Add a comment"></textarea>
-                    <button class="submit-comment" data-article-id="2">Submit</button>
                 </div>
             </article>
         </section>
@@ -107,18 +88,18 @@
                 <p id="register-success" style="color:green; display:none;">Registration successful! You can now login.</p>
             </form>
         </section>
+
+        <section id="chat">
+            <h2>Chat Room</h2>
+            <div id="chat-messages"></div>
+            <textarea id="chat-input" placeholder="Enter your message"></textarea>
+            <button id="send-chat">Send</button>
+        </section>
     </main>
 
     <footer>
         <p>Contact us at: <a href="mailto:wlsnewssite@gmail.com">wlsnewssite@gmail.com</a></p>
     </footer>
-
-    <button id="comment-btn">Add Comment</button>
-    <div id="comment-modal">
-        <h4>Add Your Comment</h4>
-        <textarea id="comment-input" placeholder="Add a comment"></textarea>
-        <button id="submit-comment">Submit</button>
-    </div>
 
     <script src="script.js"></script>
 </body>
