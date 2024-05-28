@@ -7,19 +7,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginError = document.getElementById("login-error");
     const likeButtons = document.querySelectorAll(".like-btn");
     const dislikeButtons = document.querySelectorAll(".dislike-btn");
-    const viewLikesButtons = document.querySelectorAll(".view-likes");
-    const viewDislikesButtons = document.querySelectorAll(".view-dislikes");
-    const commentButtons = document.querySelectorAll(".submit-comment");
-    const commentBtn = document.getElementById("comment-btn");
-    const commentModal = document.getElementById("comment-modal");
-    const commentInput = document.getElementById("comment-input");
-    const submitComment = document.getElementById("submit-comment");
+    const chatMessages = document.getElementById("chat-messages");
+    const chatInput = document.getElementById("chat-input");
+    const sendChat = document.getElementById("send-chat");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     let likes = JSON.parse(localStorage.getItem("likes")) || {};
     let dislikes = JSON.parse(localStorage.getItem("dislikes")) || {};
-    let comments = JSON.parse(localStorage.getItem("comments")) || {};
+    let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
 
     // Function to show a section
     function showSection(sectionId) {
@@ -139,60 +135,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // View likes functionality
-    viewLikesButtons.forEach(button => {
-        button.addEventListener("click", function() {
-            const articleId = this.getAttribute("data-article-id");
-            const likeList = document.querySelector(`.like-list[data-article-id="${articleId}"]`);
-            if (likeList.style.display === "none" || likeList.style.display === "") {
-                likeList.innerHTML = likes[articleId].join(", ");
-                likeList.style.display = "inline";
-            } else {
-                likeList.style.display = "none";
-            }
-        });
-    });
-
-    // View dislikes functionality
-    viewDislikesButtons.forEach(button => {
-        button.addEventListener("click", function() {
-            const articleId = this.getAttribute("data-article-id");
-            const dislikeList = document.querySelector(`.dislike-list[data-article-id="${articleId}"]`);
-            if (dislikeList.style.display === "none" || dislikeList.style.display === "") {
-                dislikeList.innerHTML = dislikes[articleId].join(", ");
-                dislikeList.style.display = "inline";
-            } else {
-                dislikeList.style.display = "none";
-            }
-        });
-    });
-
-    // Comment button functionality
-    submitComment.addEventListener("click", function() {
-        const commentText = commentInput.value;
-        if (loggedInUser && commentText.trim()) {
-            const articleId = document.querySelector(".active article").getAttribute("data-article-id");
-            if (!comments[articleId]) {
-                comments[articleId] = [];
-            }
-            comments[articleId].push({ username: loggedInUser.username, text: commentText });
-            localStorage.setItem("comments", JSON.stringify(comments));
-            commentInput.value = "";
-            displayComments(articleId);
-            commentModal.style.display = "none";
-        } else if (!loggedInUser) {
-            alert("You need to be logged in to comment.");
-        } else {
-            alert("Comment cannot be empty.");
-        }
-    });
-
-    // Display comments for an article
-    function displayComments(articleId) {
-        const commentList = document.querySelector(`.comments-list[data-article-id="${articleId}"]`);
-        commentList.innerHTML = comments[articleId].map(comment => `<p><strong>${comment.username}</strong>: ${comment.text}</p>`).join("");
-    }
-
     // Update like and dislike counts
     function updateLikeCounts(articleId) {
         const likeButton = document.querySelector(`.like-btn[data-article-id="${articleId}"]`);
@@ -211,23 +153,33 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Initialize comments
-    function initializeComments() {
-        Object.keys(comments).forEach(articleId => {
-            displayComments(articleId);
-        });
+    // Chat functionality
+    function displayChatMessages() {
+        chatMessages.innerHTML = chatHistory.map(message => `<p><strong>${message.username}:</strong> ${message.text}</p>`).join("");
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    sendChat.addEventListener("click", function() {
+        if (loggedInUser) {
+            const messageText = chatInput.value;
+            if (messageText.trim()) {
+                chatHistory.push({ username: loggedInUser.username, text: messageText });
+                localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+                chatInput.value = "";
+                displayChatMessages();
+            } else {
+                alert("Message cannot be empty.");
+            }
+        } else {
+            alert("You need to be logged in to send a message.");
+        }
+    });
 
     // Initialize the app
     function initializeApp() {
         initializeLikeCounts();
-        initializeComments();
+        displayChatMessages();
     }
 
     initializeApp();
-
-    // Add comment button functionality
-    commentBtn.addEventListener("click", function() {
-        commentModal.style.display = "block";
-    });
 });
