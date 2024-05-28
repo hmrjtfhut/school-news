@@ -175,6 +175,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Periodically update chat messages
+    setInterval(function() {
+        chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        displayChatMessages();
+    }, 10000); // Update every 10 seconds
+
     // Initialize the app
     function initializeApp() {
         initializeLikeCounts();
