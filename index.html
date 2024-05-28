@@ -29,31 +29,41 @@
 
         <section id="news">
             <h2>Latest News</h2>
-            <article>
+            <article data-article-id="1">
                 <h3>News Title 1</h3>
                 <p>This is a brief description of the first news item.</p>
                 <div class="like-buttons">
+                    <button class="view-likes" data-article-id="1">↓</button>
                     <button class="like-btn" data-article-id="1">👍 <span class="like-count">0</span></button>
                     <button class="dislike-btn" data-article-id="1">👎 <span class="dislike-count">0</span></button>
-                    <button class="view-likes" data-article-id="1">↓</button>
                     <button class="view-dislikes" data-article-id="1">↓</button>
                 </div>
                 <div class="like-list" data-article-id="1"></div>
                 <div class="dislike-list" data-article-id="1"></div>
-                <button class="comment-btn" data-article-id="1">Comment</button>
+                <div class="comment-section" data-article-id="1">
+                    <h4>Comments</h4>
+                    <div class="comments-list"></div>
+                    <textarea class="comment-input" placeholder="Add a comment"></textarea>
+                    <button class="submit-comment" data-article-id="1">Submit</button>
+                </div>
             </article>
-            <article>
+            <article data-article-id="2">
                 <h3>News Title 2</h3>
                 <p>This is a brief description of the second news item.</p>
                 <div class="like-buttons">
+                    <button class="view-likes" data-article-id="2">↓</button>
                     <button class="like-btn" data-article-id="2">👍 <span class="like-count">0</span></button>
                     <button class="dislike-btn" data-article-id="2">👎 <span class="dislike-count">0</span></button>
-                    <button class="view-likes" data-article-id="2">↓</button>
                     <button class="view-dislikes" data-article-id="2">↓</button>
                 </div>
                 <div class="like-list" data-article-id="2"></div>
                 <div class="dislike-list" data-article-id="2"></div>
-                <button class="comment-btn" data-article-id="2">Comment</button>
+                <div class="comment-section" data-article-id="2">
+                    <h4>Comments</h4>
+                    <div class="comments-list"></div>
+                    <textarea class="comment-input" placeholder="Add a comment"></textarea>
+                    <button class="submit-comment" data-article-id="2">Submit</button>
+                </div>
             </article>
         </section>
 
