@@ -1,15 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav ul li a");
-    const loginForm = document.getElementById("login-form");
-    const loginError = document.getElementById("login-error");
     const registerForm = document.getElementById("register-form");
+    const loginForm = document.getElementById("login-form");
     const registerSuccess = document.getElementById("register-success");
+    const loginError = document.getElementById("login-error");
     const likeButtons = document.querySelectorAll(".like-btn");
     const dislikeButtons = document.querySelectorAll(".dislike-btn");
     const viewLikesButtons = document.querySelectorAll(".view-likes");
     const viewDislikesButtons = document.querySelectorAll(".view-dislikes");
     const commentButtons = document.querySelectorAll(".submit-comment");
+    const commentBtn = document.getElementById("comment-btn");
+    const commentModal = document.getElementById("comment-modal");
+    const commentInput = document.getElementById("comment-input");
+    const submitComment = document.getElementById("submit-comment");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -142,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const likeList = document.querySelector(`.like-list[data-article-id="${articleId}"]`);
             if (likeList.style.display === "none" || likeList.style.display === "") {
                 likeList.innerHTML = likes[articleId].join(", ");
-                likeList.style.display = "block";
+                likeList.style.display = "inline";
             } else {
                 likeList.style.display = "none";
             }
@@ -156,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const dislikeList = document.querySelector(`.dislike-list[data-article-id="${articleId}"]`);
             if (dislikeList.style.display === "none" || dislikeList.style.display === "") {
                 dislikeList.innerHTML = dislikes[articleId].join(", ");
-                dislikeList.style.display = "block";
+                dislikeList.style.display = "inline";
             } else {
                 dislikeList.style.display = "none";
             }
@@ -164,27 +168,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Comment button functionality
-    commentButtons.forEach(button => {
-        button.addEventListener("click", function() {
-            const articleId = this.getAttribute("data-article-id");
-            const commentInput = document.querySelector(`.comment-input[data-article-id="${articleId}"]`);
-            const commentList = document.querySelector(`.comments-list[data-article-id="${articleId}"]`);
-            const commentText = commentInput.value;
-
-            if (loggedInUser && commentText.trim()) {
-                if (!comments[articleId]) {
-                    comments[articleId] = [];
-                }
-                comments[articleId].push({ username: loggedInUser.username, text: commentText });
-                localStorage.setItem("comments", JSON.stringify(comments));
-                commentInput.value = "";
-                displayComments(articleId);
-            } else if (!loggedInUser) {
-                alert("You need to be logged in to comment.");
-            } else {
-                alert("Comment cannot be empty.");
+    submitComment.addEventListener("click", function() {
+        const commentText = commentInput.value;
+        if (loggedInUser && commentText.trim()) {
+            const articleId = document.querySelector(".active article").getAttribute("data-article-id");
+            if (!comments[articleId]) {
+                comments[articleId] = [];
             }
-        });
+            comments[articleId].push({ username: loggedInUser.username, text: commentText });
+            localStorage.setItem("comments", JSON.stringify(comments));
+            commentInput.value = "";
+            displayComments(articleId);
+            commentModal.style.display = "none";
+        } else if (!loggedInUser) {
+            alert("You need to be logged in to comment.");
+        } else {
+            alert("Comment cannot be empty.");
+        }
     });
 
     // Display comments for an article
@@ -219,16 +219,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Initialize the app
-    function initialize() {
-        if (loggedInUser) {
-            alert(`Welcome back, ${loggedInUser.username}!`);
-            showSection("#home");
-        } else {
-            showSection("#login");
-        }
+    function initializeApp() {
         initializeLikeCounts();
         initializeComments();
     }
 
-    initialize();
+    initializeApp();
+
+    // Add comment button functionality
+    commentBtn.addEventListener("click", function() {
+        commentModal.style.display = "block";
+    });
 });
