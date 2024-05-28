@@ -26,4 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Show home section by default
     showSection("#home");
+
+    // Simulated login functionality
+    const loginForm = document.getElementById("login-form");
+    const loginError = document.getElementById("login-error");
+
+    loginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "password") {
+            alert("Login successful!");
+            showSection("#home");
+        } else {
+            loginError.style.display = "block";
+        }
+    });
 });
