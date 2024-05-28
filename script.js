@@ -11,12 +11,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const chatMessages = document.getElementById("chat-messages");
     const chatInput = document.getElementById("chat-input");
     const sendChat = document.getElementById("send-chat");
+    const newPostForm = document.getElementById("new-post-form");
+    const newsPosts = document.getElementById("news-posts");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     let likes = JSON.parse(localStorage.getItem("likes")) || {};
     let dislikes = JSON.parse(localStorage.getItem("dislikes")) || {};
     let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+    let news = JSON.parse(localStorage.getItem("news")) || [];
 
     // Function to show a section
     function showSection(sectionId) {
@@ -32,16 +35,23 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault();
             const sectionId = this.getAttribute("href");
             showSection(sectionId);
+
+            if (sectionId === "#news" && loggedInUser && loggedInUser.username === "admin1") {
+                newPostForm.style.display = "block";
+            } else {
+                newPostForm.style.display = "none";
+            }
         });
     });
 
-    // Register form submit event
+    // Registration
     registerForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("register-username").value;
         const email = document.getElementById("register-email").value;
         const password = document.getElementById("register-password").value;
 
+        // Check if email is already in use
         if (users.some(user => user.email === email)) {
             registerError.style.display = "block";
             registerSuccess.style.display = "none";
@@ -50,10 +60,11 @@ document.addEventListener("DOMContentLoaded", function() {
             localStorage.setItem("users", JSON.stringify(users));
             registerSuccess.style.display = "block";
             registerError.style.display = "none";
+            registerForm.reset();
         }
     });
 
-    // Login form submit event
+    // Login
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("login-username").value;
@@ -64,22 +75,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (user) {
             loggedInUser = user;
             localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-            alert("Login successful!");
+            loginError.style.display = "none";
             showSection("#home");
         } else {
             loginError.style.display = "block";
         }
     });
 
-    // Logout functionality
-    function logout() {
-        loggedInUser = null;
-        localStorage.removeItem("loggedInUser");
-        alert("Logged out successfully!");
-        showSection("#login");
-    }
-
-    // Like functionality
+    // Like and dislike functionality
     likeButtons.forEach(button => {
         button.addEventListener("click", function() {
             if (loggedInUser) {
@@ -109,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Dislike functionality
     dislikeButtons.forEach(button => {
         button.addEventListener("click", function() {
             if (loggedInUser) {
@@ -185,11 +187,100 @@ document.addEventListener("DOMContentLoaded", function() {
         displayChatMessages();
     }, 10000); // Update every 10 seconds
 
-    // Initialize the app
-    function initializeApp() {
-        initializeLikeCounts();
-        displayChatMessages();
+    // Admin post creation
+    newPostForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const title = document.getElementById("post-title").value;
+        const content = document.getElementById("post-content").value;
+
+        if (loggedInUser && loggedInUser.username === "admin1") {
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                likes: 0,
+                dislikes: 0
+            };
+            news.push(newPost);
+            localStorage.setItem("news", JSON.stringify(news));
+            displayNewsPosts();
+            newPostForm.reset();
+        } else {
+            alert("Only the admin can create new posts.");
+        }
+    });
+
+    function displayNewsPosts() {
+        newsPosts.innerHTML = news.map(post => `
+            <article class="news-item" data-article-id="${post.id}">
+                <h3>${post.title}</h3>
+                <p>${post.content}</p>
+                <button class="like-btn" data-article-id="${post.id}">👍 <span class="like-count">${post.likes}</span></button>
+                <button class="dislike-btn" data-article-id="${post.id}">👎 <span class="dislike-count">${post.dislikes}</span></button>
+            </article>
+        `).join("");
+
+        // Re-add event listeners to new like and dislike buttons
+        document.querySelectorAll(".like-btn").forEach(button => {
+            button.addEventListener("click", function() {
+                const articleId = this.getAttribute("data-article-id");
+                if (loggedInUser) {
+                    if (!likes[articleId]) {
+                        likes[articleId] = [];
+                    }
+                    if (!dislikes[articleId]) {
+                        dislikes[articleId] = [];
+                    }
+                    if (!likes[articleId].includes(loggedInUser.username)) {
+                        likes[articleId].push(loggedInUser.username);
+                        if (dislikes[articleId].includes(loggedInUser.username)) {
+                            dislikes[articleId] = dislikes[articleId].filter(username => username !== loggedInUser.username);
+                        }
+                        localStorage.setItem("likes", JSON.stringify(likes));
+                        localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                        updateLikeCounts(articleId);
+                    } else {
+                        likes[articleId] = likes[articleId].filter(username => username !== loggedInUser.username);
+                        localStorage.setItem("likes", JSON.stringify(likes));
+                        updateLikeCounts(articleId);
+                    }
+                } else {
+                    alert("You need to be logged in to like this post.");
+                }
+            });
+        });
+
+        document.querySelectorAll(".dislike-btn").forEach(button => {
+            button.addEventListener("click", function() {
+                const articleId = this.getAttribute("data-article-id");
+                if (loggedInUser) {
+                    if (!dislikes[articleId]) {
+                        dislikes[articleId] = [];
+                    }
+                    if (!likes[articleId]) {
+                        likes[articleId] = [];
+                    }
+                    if (!dislikes[articleId].includes(loggedInUser.username)) {
+                        dislikes[articleId].push(loggedInUser.username);
+                        if (likes[articleId].includes(loggedInUser.username)) {
+                            likes[articleId] = likes[articleId].filter(username => username !== loggedInUser.username);
+                        }
+                        localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                        localStorage.setItem("likes", JSON.stringify(likes));
+                        updateLikeCounts(articleId);
+                    } else {
+                        dislikes[articleId] = dislikes[articleId].filter(username => username !== loggedInUser.username);
+                        localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                        updateLikeCounts(articleId);
+                    }
+                } else {
+                    alert("You need to be logged in to dislike this post.");
+                }
+            });
+        });
     }
 
-    initializeApp();
+    displayNewsPosts();
+    initializeLikeCounts();
+    displayChatMessages();
 });
