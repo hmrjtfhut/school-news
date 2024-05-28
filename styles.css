@@ -61,6 +61,42 @@ article {
     border-radius: 5px;
 }
 
+form {
+    max-width: 320px; /* Increased width for a larger square */
+    margin: 0 auto; /* Centering the form */
+    background-color: white;
+    padding: 1.5em; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #005fa3;
+}
+
 .like-btn, .dislike-btn {
     margin-right: 10px;
     background-color: #f0f0f0;
@@ -93,42 +129,14 @@ article {
     margin-top: 10px; /* Adjusted margin to lower the button */
 }
 
-form {
-    max-width: 300px; /* Increased width for a larger square */
-    margin: 0 auto; /* Centering the form */
-    background-color: white;
-    padding: 1.5em; /* Increased padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007acc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #005fa3;
-}
-
 #login-error, #register-success {
     text-align: center;
+}
+
+#new-post-form {
+    margin-bottom: 20px;
+}
+
+#news-posts article {
+    margin-bottom: 20px;
 }
