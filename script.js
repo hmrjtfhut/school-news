@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
     const registerSuccess = document.getElementById("register-success");
+    const registerError = document.getElementById("register-error");
     const loginError = document.getElementById("login-error");
     const likeButtons = document.querySelectorAll(".like-btn");
     const dislikeButtons = document.querySelectorAll(".dislike-btn");
@@ -38,14 +39,17 @@ document.addEventListener("DOMContentLoaded", function() {
     registerForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("register-username").value;
+        const email = document.getElementById("register-email").value;
         const password = document.getElementById("register-password").value;
 
-        if (users.some(user => user.username === username)) {
-            alert("Username already taken.");
+        if (users.some(user => user.email === email)) {
+            registerError.style.display = "block";
+            registerSuccess.style.display = "none";
         } else {
-            users.push({ username, password });
+            users.push({ username, email, password });
             localStorage.setItem("users", JSON.stringify(users));
             registerSuccess.style.display = "block";
+            registerError.style.display = "none";
         }
     });
 
@@ -179,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(function() {
         chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
         displayChatMessages();
-    }, 1000); // Update every 1 seconds
+    }, 10000); // Update every 10 seconds
 
     // Initialize the app
     function initializeApp() {
