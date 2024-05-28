@@ -6,9 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const registerForm = document.getElementById("register-form");
     const registerSuccess = document.getElementById("register-success");
     const likeButtons = document.querySelectorAll(".like-btn");
+    const dislikeButtons = document.querySelectorAll(".dislike-btn");
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     let likes = JSON.parse(localStorage.getItem("likes")) || {};
+    let dislikes = JSON.parse(localStorage.getItem("dislikes")) || {};
 
     // Function to hide all sections
     function hideAllSections() {
@@ -84,14 +86,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (!likes[articleId]) {
                     likes[articleId] = [];
                 }
+                if (!dislikes[articleId]) {
+                    dislikes[articleId] = [];
+                }
                 if (!likes[articleId].includes(loggedInUser.username)) {
                     likes[articleId].push(loggedInUser.username);
+                    if (dislikes[articleId].includes(loggedInUser.username)) {
+                        dislikes[articleId] = dislikes[articleId].filter(username => username !== loggedInUser.username);
+                    }
                     localStorage.setItem("likes", JSON.stringify(likes));
-                    const likeCount = this.querySelector(".like-count");
-                    let count = parseInt(likeCount.textContent);
-                    likeCount.textContent = count + 1;
+                    localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                    updateLikeCounts(articleId);
                 } else {
-                    alert("You have already liked this post.");
+                    likes[articleId] = likes[articleId].filter(username => username !== loggedInUser.username);
+                    localStorage.setItem("likes", JSON.stringify(likes));
+                    updateLikeCounts(articleId);
                 }
             } else {
                 alert("You need to be logged in to like this post.");
@@ -99,12 +108,51 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Initialize like counts
+    // Dislike functionality
+    dislikeButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            if (loggedInUser) {
+                const articleId = this.getAttribute("data-article-id");
+                if (!dislikes[articleId]) {
+                    dislikes[articleId] = [];
+                }
+                if (!likes[articleId]) {
+                    likes[articleId] = [];
+                }
+                if (!dislikes[articleId].includes(loggedInUser.username)) {
+                    dislikes[articleId].push(loggedInUser.username);
+                    if (likes[articleId].includes(loggedInUser.username)) {
+                        likes[articleId] = likes[articleId].filter(username => username !== loggedInUser.username);
+                    }
+                    localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                    localStorage.setItem("likes", JSON.stringify(likes));
+                    updateLikeCounts(articleId);
+                } else {
+                    dislikes[articleId] = dislikes[articleId].filter(username => username !== loggedInUser.username);
+                    localStorage.setItem("dislikes", JSON.stringify(dislikes));
+                    updateLikeCounts(articleId);
+                }
+            } else {
+                alert("You need to be logged in to dislike this post.");
+            }
+        });
+    });
+
+    // Update like and dislike counts
+    function updateLikeCounts(articleId) {
+        const likeButton = document.querySelector(`.like-btn[data-article-id="${articleId}"]`);
+        const dislikeButton = document.querySelector(`.dislike-btn[data-article-id="${articleId}"]`);
+        const likeCount = likeButton.querySelector(".like-count");
+        const dislikeCount = dislikeButton.querySelector(".dislike-count");
+        likeCount.textContent = likes[articleId].length;
+        dislikeCount.textContent = dislikes[articleId].length;
+    }
+
+    // Initialize like and dislike counts
     function initializeLikeCounts() {
         likeButtons.forEach(button => {
             const articleId = button.getAttribute("data-article-id");
-            const likeCount = button.querySelector(".like-count");
-            likeCount.textContent = (likes[articleId] && likes[articleId].length) || 0;
+            updateLikeCounts(articleId);
         });
     }
 
