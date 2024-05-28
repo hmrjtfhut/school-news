@@ -28,18 +28,16 @@
 
     <section id="news">
         <h2>News</h2>
-        <article class="news-item" data-article-id="1">
-            <h3>News Story 1</h3>
-            <p>This is the first news story.</p>
-            <button class="like-btn" data-article-id="1"><span class="like-count">0</span> 👍</button>
-            <button class="dislike-btn" data-article-id="1"><span class="dislike-count">0</span> 👎</button>
-        </article>
-        <article class="news-item" data-article-id="2">
-            <h3>News Story 2</h3>
-            <p>This is the second news story.</p>
-            <button class="like-btn" data-article-id="2"><span class="like-count">0</span> 👍</button>
-            <button class="dislike-btn" data-article-id="2"><span class="dislike-count">0</span> 👎</button>
-        </article>
+        <form id="new-post-form" style="display: none;">
+            <label for="post-title">Title:</label>
+            <input type="text" id="post-title" required>
+            <label for="post-content">Content:</label>
+            <textarea id="post-content" required></textarea>
+            <button type="submit">Create Post</button>
+        </form>
+        <div id="news-posts">
+            <!-- News posts will be appended here -->
+        </div>
     </section>
 
     <section id="events">
