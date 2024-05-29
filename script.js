@@ -29,100 +29,104 @@ document.addEventListener("DOMContentLoaded", function() {
         { username: "user10", password: "12345678" }
     ];
 
-    function showSection(sectionId) {
+    function switchSection(sectionId) {
         sections.forEach(section => {
             section.classList.remove("active");
+            if (section.id === sectionId) {
+                section.classList.add("active");
+            }
         });
-        document.querySelector(sectionId).classList.add("active");
     }
 
     navLinks.forEach(link => {
         link.addEventListener("click", function(event) {
             event.preventDefault();
-            const sectionId = this.getAttribute("href");
-            showSection(sectionId);
-
-            if (sectionId === "#news" && loggedInUser && loggedInUser.username === "admin1") {
-                newPostForm.style.display = "block";
-            } else {
-                newPostForm.style.display = "none";
-            }
+            const targetSection = link.getAttribute("href").substring(1);
+            switchSection(targetSection);
         });
     });
+
+    if (loggedInUser) {
+        if (loggedInUser.username === "admin1") {
+            newPostForm.style.display = "block";
+        }
+    } else {
+        switchSection("login");
+    }
 
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
 
-        const validUser = users.find(user => user.username === username && user.password === password);
+        const user = users.find(u => u.username === username && u.password === password);
 
-        if (validUser) {
-            loginError.style.display = "none";
-            loggedInUser = validUser;
-            localStorage.setItem("loggedInUser", JSON.stringify(validUser));
-            alert("Login successful!");
-            showSection("#home");
+        if (user) {
+            loggedInUser = user;
+            localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+            switchSection("home");
+            if (user.username === "admin1") {
+                newPostForm.style.display = "block";
+            }
         } else {
             loginError.style.display = "block";
         }
     });
 
     function renderNewsPosts() {
-        const posts = JSON.parse(localStorage.getItem("posts")) || [];
         newsPostsContainer.innerHTML = "";
-
-        posts.forEach((post, index) => {
+        news.forEach((post, index) => {
             const postElement = document.createElement("article");
+            postElement.classList.add("news-item");
             postElement.innerHTML = `
                 <h3>${post.title}</h3>
                 <p>${post.content}</p>
-                ${loggedInUser && loggedInUser.username === "admin1" ? `
-                <button class="edit-btn" data-index="${index}">Edit</button>
-                <button class="delete-btn" data-index="${index}">Delete</button>
-                ` : ''}
             `;
+
+            if (loggedInUser && loggedInUser.username === "admin1") {
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.addEventListener("click", function() {
+                    openEditModal(index);
+                });
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.addEventListener("click", function() {
+                    deletePost(index);
+                });
+
+                postElement.appendChild(editBtn);
+                postElement.appendChild(deleteBtn);
+            }
+
             newsPostsContainer.appendChild(postElement);
         });
-
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", handleEditPost);
-        });
-
-        document.querySelectorAll(".delete-btn").forEach(button => {
-            button.addEventListener("click", handleDeletePost);
-        });
     }
 
-    function handleEditPost(event) {
-        const index = event.target.getAttribute("data-index");
-        const posts = JSON.parse(localStorage.getItem("posts")) || [];
-        const post = posts[index];
-
+    function openEditModal(index) {
+        const post = news[index];
         document.getElementById("edit-post-title").value = post.title;
         document.getElementById("edit-post-content").value = post.content;
-
-        editPostModal.style.display = "block";
-
-        const editPostForm = document.getElementById("edit-post-form");
-        editPostForm.onsubmit = function(event) {
+        document.getElementById("edit-post-form").onsubmit = function(event) {
             event.preventDefault();
-
-            post.title = document.getElementById("edit-post-title").value;
-            post.content = document.getElementById("edit-post-content").value;
-            posts[index] = post;
-            localStorage.setItem("posts", JSON.stringify(posts));
-
-            editPostModal.style.display = "none";
-            renderNewsPosts();
+            editPost(index);
         };
+        editPostModal.style.display = "block";
     }
 
-    function handleDeletePost(event) {
-        const index = event.target.getAttribute("data-index");
-        const posts = JSON.parse(localStorage.getItem("posts")) || [];
-        posts.splice(index, 1);
-        localStorage.setItem("posts", JSON.stringify(posts));
+    function editPost(index) {
+        const title = document.getElementById("edit-post-title").value;
+        const content = document.getElementById("edit-post-content").value;
+        news[index] = { title, content };
+        localStorage.setItem("news", JSON.stringify(news));
+        editPostModal.style.display = "none";
+        renderNewsPosts();
+    }
+
+    function deletePost(index) {
+        news.splice(index, 1);
+        localStorage.setItem("news", JSON.stringify(news));
         renderNewsPosts();
     }
 
@@ -131,9 +135,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const title = document.getElementById("post-title").value;
         const content = document.getElementById("post-content").value;
 
-        const posts = JSON.parse(localStorage.getItem("posts")) || [];
-        posts.push({ title, content });
-        localStorage.setItem("posts", JSON.stringify(posts));
+        news.push({ title, content });
+        localStorage.setItem("news", JSON.stringify(news));
 
         newPostForm.reset();
         renderNewsPosts();
