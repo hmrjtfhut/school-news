@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
 header {
@@ -126,13 +127,13 @@ form button:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    background-color: white;
 }
 
 #chat-messages {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
-    background-color: #f4f4f4;
 }
 
 .message {
@@ -166,4 +167,36 @@ form button:hover {
 
 #send-chat:hover {
     background-color: #555;
+}
+
+.news-item {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.news-item h3 {
+    margin: 0 0 10px;
+}
+
+.news-item p {
+    margin: 0 0 10px;
+}
+
+.news-item button {
+    margin-right: 5px;
+}
+
+button.like, button.dislike {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1rem;
+}
+
+button.like:hover, button.dislike:hover {
+    color: #333;
 }
