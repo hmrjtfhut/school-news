@@ -81,7 +81,24 @@ document.addEventListener("DOMContentLoaded", function() {
             postElement.innerHTML = `
                 <h3>${post.title}</h3>
                 <p>${post.content}</p>
+                <button class="like">👍 ${post.likes || 0}</button>
+                <button class="dislike">👎 ${post.dislikes || 0}</button>
             `;
+
+            const likeBtn = postElement.querySelector(".like");
+            const dislikeBtn = postElement.querySelector(".dislike");
+
+            likeBtn.addEventListener("click", function() {
+                post.likes = (post.likes || 0) + 1;
+                localStorage.setItem("news", JSON.stringify(news));
+                renderNewsPosts();
+            });
+
+            dislikeBtn.addEventListener("click", function() {
+                post.dislikes = (post.dislikes || 0) + 1;
+                localStorage.setItem("news", JSON.stringify(news));
+                renderNewsPosts();
+            });
 
             if (loggedInUser && loggedInUser.username === "admin1") {
                 const editBtn = document.createElement("button");
@@ -118,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function editPost(index) {
         const title = document.getElementById("edit-post-title").value;
         const content = document.getElementById("edit-post-content").value;
-        news[index] = { title, content };
+        news[index] = { ...news[index], title, content };
         localStorage.setItem("news", JSON.stringify(news));
         editPostModal.style.display = "none";
         renderNewsPosts();
@@ -135,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const title = document.getElementById("post-title").value;
         const content = document.getElementById("post-content").value;
 
-        news.push({ title, content });
+        news.push({ title, content, likes: 0, dislikes: 0 });
         localStorage.setItem("news", JSON.stringify(news));
 
         newPostForm.reset();
