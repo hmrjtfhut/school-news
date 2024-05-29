@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav ul li a");
-    const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
-    const registerSuccess = document.getElementById("register-success");
-    const registerError = document.getElementById("register-error");
     const loginError = document.getElementById("login-error");
     const chatMessages = document.getElementById("chat-messages");
     const chatInput = document.getElementById("chat-input");
@@ -14,10 +11,23 @@ document.addEventListener("DOMContentLoaded", function() {
     const editPostModal = document.getElementById("edit-post-modal");
     const modalCloseBtn = editPostModal.querySelector(".close");
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
     let news = JSON.parse(localStorage.getItem("news")) || [];
+
+    const users = [
+        { username: "admin1", password: "lol" },
+        { username: "user1", password: "12345678" },
+        { username: "user2", password: "12345678" },
+        { username: "user3", password: "12345678" },
+        { username: "user4", password: "12345678" },
+        { username: "user5", password: "12345678" },
+        { username: "user6", password: "12345678" },
+        { username: "user7", password: "12345678" },
+        { username: "user8", password: "12345678" },
+        { username: "user9", password: "12345678" },
+        { username: "user10", password: "12345678" }
+    ];
 
     function showSection(sectionId) {
         sections.forEach(section => {
@@ -38,23 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 newPostForm.style.display = "none";
             }
         });
-    });
-
-    registerForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const username = document.getElementById("register-username").value;
-        const email = document.getElementById("register-email").value;
-        const password = document.getElementById("register-password").value;
-
-        if (users.some(user => user.email === email)) {
-            registerError.style.display = "block";
-            registerSuccess.style.display = "none";
-        } else {
-            users.push({ username, email, password });
-            localStorage.setItem("users", JSON.stringify(users));
-            registerSuccess.style.display = "block";
-            registerError.style.display = "none";
-        }
     });
 
     loginForm.addEventListener("submit", function(event) {
@@ -187,5 +180,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    setInterval(renderChatMessages, 100);
+    setInterval(renderChatMessages, 1000);
 });
