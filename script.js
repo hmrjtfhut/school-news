@@ -10,18 +10,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const chatInput = document.getElementById("chat-input");
     const sendChat = document.getElementById("send-chat");
     const newPostForm = document.getElementById("new-post-form");
-    const newsPosts = document.getElementById("news-posts");
-    const fileInput = document.getElementById("file-input");
-    const resetChatBtn = document.getElementById("reset-chat-btn");
+    const newsPostsContainer = document.getElementById("news-posts");
+    const editPostModal = document.getElementById("edit-post-modal");
+    const modalCloseBtn = editPostModal.querySelector(".close");
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    let likes = JSON.parse(localStorage.getItem("likes")) || {};
-    let dislikes = JSON.parse(localStorage.getItem("dislikes")) || {};
     let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
     let news = JSON.parse(localStorage.getItem("news")) || [];
 
-    // Function to show a section
     function showSection(sectionId) {
         sections.forEach(section => {
             section.classList.remove("active");
@@ -29,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector(sectionId).classList.add("active");
     }
 
-    // Add event listeners to nav links
     navLinks.forEach(link => {
         link.addEventListener("click", function(event) {
             event.preventDefault();
@@ -44,14 +40,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Registration
     registerForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("register-username").value;
         const email = document.getElementById("register-email").value;
         const password = document.getElementById("register-password").value;
 
-        // Check if email is already in use
         if (users.some(user => user.email === email)) {
             registerError.style.display = "block";
             registerSuccess.style.display = "none";
@@ -63,213 +57,135 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Login
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
 
-        const user = users.find(user => user.username === username && user.password === password);
-        if (user) {
-            loggedInUser = user;
-            localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+        const validUser = users.find(user => user.username === username && user.password === password);
+
+        if (validUser) {
             loginError.style.display = "none";
+            loggedInUser = validUser;
+            localStorage.setItem("loggedInUser", JSON.stringify(validUser));
+            alert("Login successful!");
             showSection("#home");
         } else {
             loginError.style.display = "block";
         }
     });
 
-    // Handle new post creation
+    function renderNewsPosts() {
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        newsPostsContainer.innerHTML = "";
+
+        posts.forEach((post, index) => {
+            const postElement = document.createElement("article");
+            postElement.innerHTML = `
+                <h3>${post.title}</h3>
+                <p>${post.content}</p>
+                ${loggedInUser && loggedInUser.username === "admin1" ? `
+                <button class="edit-btn" data-index="${index}">Edit</button>
+                <button class="delete-btn" data-index="${index}">Delete</button>
+                ` : ''}
+            `;
+            newsPostsContainer.appendChild(postElement);
+        });
+
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", handleEditPost);
+        });
+
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", handleDeletePost);
+        });
+    }
+
+    function handleEditPost(event) {
+        const index = event.target.getAttribute("data-index");
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        const post = posts[index];
+
+        document.getElementById("edit-post-title").value = post.title;
+        document.getElementById("edit-post-content").value = post.content;
+
+        editPostModal.style.display = "block";
+
+        const editPostForm = document.getElementById("edit-post-form");
+        editPostForm.onsubmit = function(event) {
+            event.preventDefault();
+
+            post.title = document.getElementById("edit-post-title").value;
+            post.content = document.getElementById("edit-post-content").value;
+            posts[index] = post;
+            localStorage.setItem("posts", JSON.stringify(posts));
+
+            editPostModal.style.display = "none";
+            renderNewsPosts();
+        };
+    }
+
+    function handleDeletePost(event) {
+        const index = event.target.getAttribute("data-index");
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts.splice(index, 1);
+        localStorage.setItem("posts", JSON.stringify(posts));
+        renderNewsPosts();
+    }
+
     newPostForm.addEventListener("submit", function(event) {
         event.preventDefault();
         const title = document.getElementById("post-title").value;
         const content = document.getElementById("post-content").value;
 
-        const newPost = {
-            id: Date.now(),
-            title,
-            content,
-            author: loggedInUser.username
-        };
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts.push({ title, content });
+        localStorage.setItem("posts", JSON.stringify(posts));
 
-        news.push(newPost);
-        localStorage.setItem("news", JSON.stringify(news));
-        renderNewsPosts();
         newPostForm.reset();
+        renderNewsPosts();
     });
 
-    // Render news posts
-    function renderNewsPosts() {
-        newsPosts.innerHTML = "";
-        news.forEach(post => {
-            const article = document.createElement("article");
-            article.classList.add("news-item");
-            article.innerHTML = `
-                <h3>${post.title}</h3>
-                <p>${post.content}</p>
-                <p>By ${post.author}</p>
-                ${loggedInUser && loggedInUser.username === "admin1" ? `
-                <button class="edit-btn" data-id="${post.id}">Edit</button>
-                <button class="delete-btn" data-id="${post.id}">Delete</button>
-                ` : ''}
-            `;
-            newsPosts.appendChild(article);
-        });
-
-        // Add event listeners to edit and delete buttons if admin
-        if (loggedInUser && loggedInUser.username === "admin1") {
-            const editButtons = document.querySelectorAll(".edit-btn");
-            const deleteButtons = document.querySelectorAll(".delete-btn");
-
-            editButtons.forEach(button => {
-                button.addEventListener("click", handleEditPost);
-            });
-
-            deleteButtons.forEach(button => {
-                button.addEventListener("click", handleDeletePost);
-            });
-        }
-    }
-
-    // Handle edit post
-    function handleEditPost(event) {
-        const postId = parseInt(event.target.getAttribute("data-id"));
-        const post = news.find(post => post.id === postId);
-        if (post) {
-            const title = prompt("Edit title:", post.title);
-            const content = prompt("Edit content:", post.content);
-            if (title !== null && content !== null) {
-                post.title = title;
-                post.content = content;
-                localStorage.setItem("news", JSON.stringify(news));
-                renderNewsPosts();
-            }
-        }
-    }
-
-    // Handle delete post
-    function handleDeletePost(event) {
-        const postId = parseInt(event.target.getAttribute("data-id"));
-        news = news.filter(post => post.id !== postId);
-        localStorage.setItem("news", JSON.stringify(news));
-        renderNewsPosts();
-    }
-
-    // Render chat messages
     function renderChatMessages() {
         chatMessages.innerHTML = "";
         chatHistory.forEach(message => {
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("chat-message");
-            messageDiv.textContent = `${message.author}: ${message.content}`;
-            chatMessages.appendChild(messageDiv);
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.innerHTML = `<b>${message.username}:</b> ${message.content}`;
+            chatMessages.appendChild(messageElement);
         });
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Send chat message
     sendChat.addEventListener("click", function() {
         const message = chatInput.value.trim();
-        if (message) {
-            const newMessage = {
-                author: loggedInUser.username,
-                content: message
-            };
-            chatHistory.push(newMessage);
-            localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-            chatInput.value = "";
-            renderChatMessages();
-            sendBotResponse(message);
-        }
-    });
+        if (message === "") return;
 
-    // AI Chatbot response (simulated)
-    async function sendBotResponse(userMessage) {
-        const botResponse = await fetchBotResponse(userMessage);
-
-        const botMessage = {
-            author: "Bot",
-            content: botResponse
-        };
-
-        chatHistory.push(botMessage);
+        chatHistory.push({ username: loggedInUser.username, content: message });
         localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+        chatInput.value = "";
+
         renderChatMessages();
-    }
-
-    // Simulated bot response
-    async function fetchBotResponse(userMessage) {
-        // Simulate a call to an AI chatbot like GPT-4
-        const responses = {
-            hello: "Hi there! How can I assist you today?",
-            help: "Sure, I'm here to help. What do you need assistance with?",
-            news: "You can check the latest news in the News section.",
-            events: "Upcoming events are listed in the Events section.",
-            default: "I'm not sure how to respond to that. Can you please rephrase?"
-        };
-
-        const keywords = Object.keys(responses);
-        let botResponse = responses.default;
-
-        for (const keyword of keywords) {
-            if (userMessage.toLowerCase().includes(keyword)) {
-                botResponse = responses[keyword];
-                break;
-            }
-        }
-
-        // Simulate a delay for real-time feel
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(botResponse);
-            }, 1000);
-        });
-    }
-
-    // Poll for new chat messages
-    function pollChatMessages() {
-        setInterval(() => {
-            chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
-            renderChatMessages();
-        }, 1000);
-    }
-
-    // Handle file upload button click
-    document.getElementById("upload-file").addEventListener("click", function() {
-        fileInput.click();
     });
 
-    // Handle file input change
-    fileInput.addEventListener("change", function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newMessage = {
-                    author: loggedInUser.username,
-                    content: `File uploaded: ${file.name}`,
-                    fileUrl: e.target.result
-                };
-                chatHistory.push(newMessage);
-                localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-                renderChatMessages();
-            };
-            reader.readAsDataURL(file);
+    chatInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            sendChat.click();
         }
     });
 
-    // Reset chat (only admin)
-    resetChatBtn.addEventListener("click", function() {
-        if (loggedInUser && loggedInUser.username === "admin1") {
-            chatHistory = [];
-            localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-            renderChatMessages();
-        }
-    });
-
-    // Initial render
     renderNewsPosts();
     renderChatMessages();
-    pollChatMessages();
+
+    modalCloseBtn.addEventListener("click", function() {
+        editPostModal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target === editPostModal) {
+            editPostModal.style.display = "none";
+        }
+    });
+
+    setInterval(renderChatMessages, 1000);
 });
