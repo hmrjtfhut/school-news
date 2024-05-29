@@ -108,100 +108,133 @@ document.addEventListener("DOMContentLoaded", function() {
             article.innerHTML = `
                 <h3>${post.title}</h3>
                 <p>${post.content}</p>
-                <p>By: ${post.author}</p>
-                ${loggedInUser && loggedInUser.username === post.author ? `
+                <p>By ${post.author}</p>
                 <button class="edit-btn" data-id="${post.id}">Edit</button>
                 <button class="delete-btn" data-id="${post.id}">Delete</button>
-                ` : ""}
             `;
             newsPosts.appendChild(article);
         });
 
         // Add event listeners to edit and delete buttons
-        document.querySelectorAll(".edit-btn").forEach(btn => {
-            btn.addEventListener("click", handleEditPost);
+        const editButtons = document.querySelectorAll(".edit-btn");
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        editButtons.forEach(button => {
+            button.addEventListener("click", handleEditPost);
         });
-        document.querySelectorAll(".delete-btn").forEach(btn => {
-            btn.addEventListener("click", handleDeletePost);
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", handleDeletePost);
         });
     }
 
-    // Handle post edit
+    // Handle edit post
     function handleEditPost(event) {
-        const postId = event.target.getAttribute("data-id");
-        const post = news.find(p => p.id === parseInt(postId));
+        const postId = parseInt(event.target.getAttribute("data-id"));
+        const post = news.find(post => post.id === postId);
         if (post) {
-            document.getElementById("edit-post-title").value = post.title;
-            document.getElementById("edit-post-content").value = post.content;
-            document.getElementById("edit-post-modal").style.display = "block";
-            document.getElementById("edit-post-form").onsubmit = function(e) {
-                e.preventDefault();
-                post.title = document.getElementById("edit-post-title").value;
-                post.content = document.getElementById("edit-post-content").value;
+            const title = prompt("Edit title:", post.title);
+            const content = prompt("Edit content:", post.content);
+            if (title !== null && content !== null) {
+                post.title = title;
+                post.content = content;
                 localStorage.setItem("news", JSON.stringify(news));
                 renderNewsPosts();
-                document.getElementById("edit-post-modal").style.display = "none";
-            };
+            }
         }
     }
 
-    // Handle post delete
+    // Handle delete post
     function handleDeletePost(event) {
-        const postId = event.target.getAttribute("data-id");
-        news = news.filter(p => p.id !== parseInt(postId));
+        const postId = parseInt(event.target.getAttribute("data-id"));
+        news = news.filter(post => post.id !== postId);
         localStorage.setItem("news", JSON.stringify(news));
         renderNewsPosts();
     }
 
-    // Chat functionality
-    sendChat.addEventListener("click", function() {
-        const message = chatInput.value.trim();
-        if (message) {
-            chatHistory.push({ username: loggedInUser.username, message });
-            localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-            renderChatMessages();
-            chatInput.value = "";
-        }
-    });
-
     // Render chat messages
     function renderChatMessages() {
         chatMessages.innerHTML = "";
-        chatHistory.forEach(chat => {
-            const chatMessage = document.createElement("div");
-            chatMessage.innerHTML = `<strong>${chat.username}:</strong> ${chat.message}`;
-            chatMessages.appendChild(chatMessage);
+        chatHistory.forEach(message => {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message");
+            messageDiv.textContent = `${message.author}: ${message.content}`;
+            chatMessages.appendChild(messageDiv);
         });
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Polling mechanism to reload chat messages
+    // Send chat message
+    sendChat.addEventListener("click", function() {
+        const message = chatInput.value.trim();
+        if (message) {
+            const newMessage = {
+                author: loggedInUser.username,
+                content: message
+            };
+            chatHistory.push(newMessage);
+            localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+            chatInput.value = "";
+            renderChatMessages();
+            sendBotResponse(message);
+        }
+    });
+
+    // AI Chatbot response
+    function sendBotResponse(userMessage) {
+        const responses = {
+            hello: "Hi there! How can I assist you today?",
+            help: "Sure, I'm here to help. What do you need assistance with?",
+            news: "You can check the latest news in the News section.",
+            events: "Upcoming events are listed in the Events section.",
+            default: "I'm not sure how to respond to that. Can you please rephrase?"
+        };
+
+        const keywords = Object.keys(responses);
+        let botResponse = responses.default;
+
+        for (const keyword of keywords) {
+            if (userMessage.toLowerCase().includes(keyword)) {
+                botResponse = responses[keyword];
+                break;
+            }
+        }
+
+        const botMessage = {
+            author: "Bot",
+            content: botResponse
+        };
+
+        chatHistory.push(botMessage);
+        localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+        renderChatMessages();
+    }
+
+    // Poll for new chat messages
     function pollChatMessages() {
         setInterval(() => {
-            const updatedChatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
-            if (updatedChatHistory.length !== chatHistory.length) {
-                chatHistory = updatedChatHistory;
-                renderChatMessages();
-            }
-        }, 1000); // Poll every second
+            chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+            renderChatMessages();
+        }, 1000);
     }
 
-    // Handle file upload
+    // Handle file upload button click
     document.getElementById("upload-file").addEventListener("click", function() {
         fileInput.click();
     });
 
+    // Handle file input change
     fileInput.addEventListener("change", function(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const fileUrl = e.target.result;
-                if (file.type.startsWith("image/")) {
-                    chatHistory.push({ username: loggedInUser.username, message: `<img src="${fileUrl}" alt="uploaded image" style="max-width: 100%;">` });
-                } else if (file.type === "audio/mpeg") {
-                    chatHistory.push({ username: loggedInUser.username, message: `<audio controls><source src="${fileUrl}" type="audio/mpeg"></audio>` });
-                }
+                const newMessage = {
+                    author: loggedInUser.username,
+                    content: `File uploaded: ${file.name}`,
+                    fileUrl: e.target.result
+                };
+                chatHistory.push(newMessage);
                 localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
                 renderChatMessages();
             };
@@ -209,30 +242,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Reset chat history
+    // Reset chat
     resetChatBtn.addEventListener("click", function() {
         chatHistory = [];
         localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
         renderChatMessages();
     });
 
-    // Modal functionality
-    const modal = document.getElementById("edit-post-modal");
-    const closeModal = document.getElementsByClassName("close")[0];
-
-    closeModal.onclick = function() {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    // Initialize app
+    // Initial render
     renderNewsPosts();
     renderChatMessages();
-    pollChatMessages(); // Start polling for chat messages
-    showSection("#home");
+    pollChatMessages();
 });
