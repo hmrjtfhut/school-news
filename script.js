@@ -187,5 +187,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    setInterval(renderChatMessages, 1000);
+    setInterval(renderChatMessages, 100);
 });
