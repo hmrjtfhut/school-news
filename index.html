@@ -16,7 +16,7 @@
                 <li><a href="#events">Events</a></li>
                 <li><a href="#chat">Chat Room</a></li>
                 <li class="right"><a href="#login">Login</a></li>
-                <li class="right"><a href="#register">Register</a></li>
+                <li class="right"><a href="https://docs.google.com/forms/d/e/1FAIpQLSehJG4wFv5F9YYq7sll5Z0slDF07tyOsXBd8p3JDr5ObZ28JQ/viewform" target="_blank">Register</a></li>
             </ul>
         </nav>
     </header>
@@ -56,10 +56,7 @@
         <h2>Chat Room</h2>
         <div id="chat-messages"></div>
         <input type="text" id="chat-input" placeholder="Type a message...">
-        <input type="file" id="file-input" style="display: none;">
         <button id="send-chat">Send</button>
-        <button id="upload-file">Upload File</button>
-        <button id="reset-chat-btn">Reset Chat</button>
     </section>
 
     <section id="login">
@@ -72,21 +69,6 @@
             <button type="submit">Login</button>
         </form>
         <p id="login-error" style="display: none; color: red;">Invalid username or password.</p>
-    </section>
-
-    <section id="register">
-        <h2>Register</h2>
-        <form id="register-form">
-            <label for="register-username">Username:</label>
-            <input type="text" id="register-username" required>
-            <label for="register-email">Email:</label>
-            <input type="email" id="register-email" required>
-            <label for="register-password">Password:</label>
-            <input type="password" id="register-password" required>
-            <button type="submit">Register</button>
-        </form>
-        <p id="register-success" style="display: none; color: green;">Registration successful!</p>
-        <p id="register-error" style="display: none; color: red;">Email already in use.</p>
     </section>
 
     <!-- Edit Post Modal -->
