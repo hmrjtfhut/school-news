@@ -1,6 +1,6 @@
 // Predefined accounts
 const predefinedUsers = {
-    'admin1': 'lol',
+    'admin1': 'lol'
 };
 
 // Save predefined users to localStorage if not already present
@@ -103,7 +103,6 @@ function login(event) {
     let users = loadUsers();
     if (users[username] && users[username] === password) {
         alert('Login successful');
-        // Store the logged-in user in sessionStorage
         sessionStorage.setItem('loggedInUser', username);
         if (username === 'admin1') {
             document.getElementById('adminControls').style.display = 'block';
@@ -191,7 +190,6 @@ function deletePost(index) {
     loadPosts();
 }
 
-// Check if an admin is logged in on page load
 document.addEventListener('DOMContentLoaded', () => {
     const loggedInUser = sessionStorage.getItem('loggedInUser');
     if (loggedInUser === 'admin1') {
