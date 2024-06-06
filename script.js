@@ -1,6 +1,6 @@
 // Predefined accounts
 const predefinedUsers = {
-    'admin1': 'password123',
+    'admin1': 'lol',
 };
 
 // Save predefined users to localStorage if not already present
@@ -8,14 +8,15 @@ if (!localStorage.getItem('users')) {
     localStorage.setItem('users', JSON.stringify(predefinedUsers));
 }
 
+// Initialize posts
+if (!localStorage.getItem('posts')) {
+    localStorage.setItem('posts', JSON.stringify([]));
+}
+
 function showHome() {
     hideAllSections();
     document.getElementById('home').style.display = 'block';
-}
-
-function showRegister() {
-    hideAllSections();
-    document.getElementById('register').style.display = 'block';
+    loadPosts();
 }
 
 function showLogin() {
@@ -46,7 +47,6 @@ function showHelpMessage() {
 
 function hideAllSections() {
     document.getElementById('home').style.display = 'none';
-    document.getElementById('register').style.display = 'none';
     document.getElementById('login').style.display = 'none';
     document.getElementById('help').style.display = 'none';
 }
@@ -77,19 +77,23 @@ function loadMessages() {
     return messages ? JSON.parse(messages) : [];
 }
 
-function register(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    let users = loadUsers();
-    if (users[username]) {
-        alert('Username already exists');
-    } else {
-        users[username] = password;
-        saveUsers(users);
-        alert('Registration successful');
-        showLogin();
-    }
+function savePosts(posts) {
+    localStorage.setItem('posts', JSON.stringify(posts));
+}
+
+function loadPosts() {
+    const posts = localStorage.getItem('posts');
+    const postsList = document.getElementById('postsList');
+    postsList.innerHTML = '';
+    JSON.parse(posts).forEach((post, index) => {
+        const postDiv = document.createElement('div');
+        postDiv.innerHTML = `<h4>${post.title}</h4><p>${post.content}</p>`;
+        if (sessionStorage.getItem('loggedInUser') === 'admin1') {
+            postDiv.innerHTML += `<button onclick="editPost(${index})">Edit</button>
+                                  <button onclick="deletePost(${index})">Delete</button>`;
+        }
+        postsList.appendChild(postDiv);
+    });
 }
 
 function login(event) {
@@ -102,10 +106,10 @@ function login(event) {
         // Store the logged-in user in sessionStorage
         sessionStorage.setItem('loggedInUser', username);
         if (username === 'admin1') {
+            document.getElementById('adminControls').style.display = 'block';
             showAdminMessages();
-        } else {
-            showHome();
         }
+        showHome();
     } else {
         alert('Invalid username or password');
     }
@@ -155,10 +159,45 @@ function showAdminMessages() {
     document.getElementById('adminMessages').style.display = 'block';
 }
 
+function createOrUpdatePost(event) {
+    event.preventDefault();
+    const postId = document.getElementById('postId').value;
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postContent').value;
+    let posts = JSON.parse(localStorage.getItem('posts'));
+    if (postId) {
+        posts[postId] = { title, content };
+    } else {
+        posts.push({ title, content });
+    }
+    savePosts(posts);
+    document.getElementById('postForm').reset();
+    document.getElementById('postId').value = '';
+    loadPosts();
+}
+
+function editPost(index) {
+    let posts = JSON.parse(localStorage.getItem('posts'));
+    document.getElementById('postId').value = index;
+    document.getElementById('postTitle').value = posts[index].title;
+    document.getElementById('postContent').value = posts[index].content;
+    document.getElementById('postForm').scrollIntoView();
+}
+
+function deletePost(index) {
+    let posts = JSON.parse(localStorage.getItem('posts'));
+    posts.splice(index, 1);
+    savePosts(posts);
+    loadPosts();
+}
+
 // Check if an admin is logged in on page load
 document.addEventListener('DOMContentLoaded', () => {
     const loggedInUser = sessionStorage.getItem('loggedInUser');
     if (loggedInUser === 'admin1') {
+        document.getElementById('adminControls').style.display = 'block';
         showAdminMessages();
     }
+    loadPosts();
+    showHome();
 });
