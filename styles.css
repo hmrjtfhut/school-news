@@ -51,12 +51,12 @@ form {
     flex-direction: column;
 }
 
-form label, form input, form button {
+form label, form input, form button, form textarea {
     margin-bottom: 10px;
     padding: 10px;
 }
 
-form input {
+form input, form textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
@@ -72,4 +72,14 @@ form button {
 
 form button:hover {
     background-color: #555;
+}
+
+#helpOptions {
+    display: flex;
+    flex-direction: column;
+}
+
+#helpOptions button {
+    margin-bottom: 10px;
+    padding: 10px;
 }
