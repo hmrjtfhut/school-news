@@ -7,33 +7,37 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>WLS News</h1>
-        <nav>
-            <button onclick="showHome()">Home</button>
-            <button onclick="showCreatePost()">Create Post</button>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <h2>Welcome to WLS News</h2>
-            <p>This is a brief description of the site.</p>
-            <div id="news">
-                <h3>News</h3>
-                <div id="postsList"></div>
-            </div>
-        </section>
-        <section id="createPost" style="display: none;">
-            <h2>Create Post</h2>
-            <form id="postForm" onsubmit="createPost(event)">
-                <label for="postTitle">Title:</label>
-                <input type="text" id="postTitle" name="postTitle" required>
-                <label for="postContent">Content:</label>
-                <textarea id="postContent" name="postContent" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
-    </main>
+    <h1>WLS News</h1>
+    
+    <!-- Login Form -->
+    <div id="login">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+    
+    <!-- Home Page -->
+    <div id="home" style="display: none;">
+        <h2>Home</h2>
+        <div id="adminPost" style="display: none;">
+            <textarea id="newsMessage" placeholder="Write your news..."></textarea>
+            <button onclick="postNews()">Post News</button>
+        </div>
+        <div id="news"></div>
+        <button onclick="logout()">Logout</button>
+        <button onclick="showChat()">Chat</button>
+    </div>
+    
+    <!-- Chat Page -->
+    <div id="chat" style="display: none;">
+        <h2>Chat</h2>
+        <div id="chatbox"></div>
+        <input type="text" id="chatMessage" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="showHome()">Home</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
