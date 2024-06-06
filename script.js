@@ -16,17 +16,27 @@ function showLogin() {
     document.getElementById('login').style.display = 'block';
 }
 
-let users = {};
+function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
+function loadUsers() {
+    const users = localStorage.getItem('users');
+    return users ? JSON.parse(users) : {};
+}
 
 function register(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    let users = loadUsers();
     if (users[username]) {
         alert('Username already exists');
     } else {
         users[username] = password;
+        saveUsers(users);
         alert('Registration successful');
+        showLogin();
     }
 }
 
@@ -34,8 +44,10 @@ function login(event) {
     event.preventDefault();
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
+    let users = loadUsers();
     if (users[username] && users[username] === password) {
         alert('Login successful');
+        // Add logic here for successful login, e.g., redirecting to a user dashboard
     } else {
         alert('Invalid username or password');
     }
