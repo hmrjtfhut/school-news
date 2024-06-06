@@ -13,6 +13,7 @@
             <button onclick="showHome()">Home</button>
             <button onclick="showRegister()">Register</button>
             <button onclick="showLogin()">Login</button>
+            <button onclick="showHelp()">Help/Get Account</button>
         </nav>
     </header>
     <main>
@@ -43,6 +44,41 @@
                 <input type="password" id="loginPassword" name="loginPassword" required>
                 <button type="submit">Login</button>
             </form>
+        </section>
+        <section id="help" style="display: none;">
+            <h2>Help/Get Account</h2>
+            <div id="helpOptions">
+                <button onclick="showGetAccount()">Get Account</button>
+                <button onclick="showFeedback()">Send Feedback</button>
+                <button onclick="showHelpMessage()">Help</button>
+            </div>
+            <div id="getAccount" style="display: none;">
+                <form id="getAccountForm" onsubmit="requestAccount(event)">
+                    <label for="requestName">Your Name:</label>
+                    <input type="text" id="requestName" name="requestName" required>
+                    <label for="accountMessage">Message to Admin:</label>
+                    <textarea id="accountMessage" name="accountMessage" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <div id="feedback" style="display: none;">
+                <form id="feedbackForm" onsubmit="sendFeedback(event)">
+                    <label for="feedbackMessage">Your Feedback:</label>
+                    <textarea id="feedbackMessage" name="feedbackMessage" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <div id="helpMessage" style="display: none;">
+                <form id="helpMessageForm" onsubmit="sendHelpMessage(event)">
+                    <label for="helpMessageContent">Your Help Message:</label>
+                    <textarea id="helpMessageContent" name="helpMessageContent" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <div id="adminMessages" style="display: none;">
+                <h3>Messages</h3>
+                <div id="messagesList"></div>
+            </div>
         </section>
     </main>
     <script src="script.js"></script>
