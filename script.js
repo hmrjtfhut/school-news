@@ -1,52 +1,68 @@
-// Initialize posts
-if (!localStorage.getItem('posts')) {
-    localStorage.setItem('posts', JSON.stringify([]));
+const users = { 'admin': 'lol' };
+let currentUser = null;
+let chatMessages = [];
+
+function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    if (users[username] && users[username] === password) {
+        currentUser = username;
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('home').style.display = 'block';
+        if (currentUser === 'admin') {
+            document.getElementById('adminPost').style.display = 'block';
+        }
+        displayNews();
+    } else {
+        alert('Invalid credentials. Please try again.');
+    }
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('login').style.display = 'block';
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('chat').style.display = 'none';
+}
+
+function postNews() {
+    const message = document.getElementById('newsMessage').value;
+    chatMessages.push({ user: 'admin', message });
+    document.getElementById('newsMessage').value = '';
+    displayNews();
+}
+
+function displayNews() {
+    const newsDiv = document.getElementById('news');
+    newsDiv.innerHTML = chatMessages
+        .filter(msg => msg.user === 'admin')
+        .map(msg => `<p><strong>${msg.user}</strong>: ${msg.message}</p>`)
+        .join('');
+}
+
+function showChat() {
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('chat').style.display = 'block';
+    loadChatMessages();
 }
 
 function showHome() {
-    hideAllSections();
+    document.getElementById('chat').style.display = 'none';
     document.getElementById('home').style.display = 'block';
-    loadPosts();
 }
 
-function showCreatePost() {
-    hideAllSections();
-    document.getElementById('createPost').style.display = 'block';
+function sendMessage() {
+    const message = document.getElementById('chatMessage').value;
+    chatMessages.push({ user: currentUser, message });
+    document.getElementById('chatMessage').value = '';
+    loadChatMessages();
 }
 
-function hideAllSections() {
-    document.getElementById('home').style.display = 'none';
-    document.getElementById('createPost').style.display = 'none';
+function loadChatMessages() {
+    const chatbox = document.getElementById('chatbox');
+    chatbox.innerHTML = chatMessages
+        .map(msg => `<p><strong>${msg.user}</strong>: ${msg.message}</p>`)
+        .join('');
 }
 
-function savePosts(posts) {
-    localStorage.setItem('posts', JSON.stringify(posts));
-}
-
-function loadPosts() {
-    const posts = localStorage.getItem('posts');
-    const postsList = document.getElementById('postsList');
-    postsList.innerHTML = '';
-    JSON.parse(posts).forEach((post, index) => {
-        const postDiv = document.createElement('div');
-        postDiv.innerHTML = `<h4>${post.title}</h4><p>${post.content}</p>`;
-        postsList.appendChild(postDiv);
-    });
-}
-
-function createPost(event) {
-    event.preventDefault();
-    const title = document.getElementById('postTitle').value;
-    const content = document.getElementById('postContent').value;
-    let posts = JSON.parse(localStorage.getItem('posts'));
-    posts.push({ title, content });
-    savePosts(posts);
-    document.getElementById('postForm').reset();
-    showHome();
-}
-
-// Initialize page
-document.addEventListener('DOMContentLoaded', () => {
-    loadPosts();
-    showHome();
-});
+setInterval(loadChatMessages, 1000);
