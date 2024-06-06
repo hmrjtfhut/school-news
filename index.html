@@ -7,37 +7,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>WLS News</h1>
-    
-    <!-- Login Form -->
-    <div id="login">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-    </div>
-    
-    <!-- Home Page -->
-    <div id="home" style="display: none;">
-        <h2>Home</h2>
-        <div id="adminPost" style="display: none;">
-            <textarea id="newsMessage" placeholder="Write your news..."></textarea>
-            <button onclick="postNews()">Post News</button>
-        </div>
-        <div id="news"></div>
-        <button onclick="logout()">Logout</button>
-        <button onclick="showChat()">Chat</button>
-    </div>
-    
-    <!-- Chat Page -->
-    <div id="chat" style="display: none;">
-        <h2>Chat</h2>
-        <div id="chatbox"></div>
-        <input type="text" id="chatMessage" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
-        <button onclick="showHome()">Home</button>
-    </div>
-
+    <header>
+        <h1>WLS News</h1>
+        <nav>
+            <button onclick="showHome()">Home</button>
+            <button onclick="showLogin()">Login</button>
+        </nav>
+    </header>
+    <main>
+        <section id="home">
+            <h2>Welcome to WLS News</h2>
+            <p>This is a brief description of the site.</p>
+        </section>
+        <section id="login" style="display: none;">
+            <h2>Login</h2>
+            <form id="loginForm" onsubmit="login(event)">
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" name="loginUsername" required>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
