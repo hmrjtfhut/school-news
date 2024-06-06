@@ -11,8 +11,7 @@
         <h1>WLS News</h1>
         <nav>
             <button onclick="showHome()">Home</button>
-            <button onclick="showLogin()">Login</button>
-            <button onclick="showHelp()">Help/Get Account</button>
+            <button onclick="showCreatePost()">Create Post</button>
         </nav>
     </header>
     <main>
@@ -22,63 +21,17 @@
             <div id="news">
                 <h3>News</h3>
                 <div id="postsList"></div>
-                <div id="adminControls" style="display: none;">
-                    <h3>Admin Controls</h3>
-                    <form id="postForm" onsubmit="createOrUpdatePost(event)">
-                        <input type="hidden" id="postId" name="postId">
-                        <label for="postTitle">Title:</label>
-                        <input type="text" id="postTitle" name="postTitle" required>
-                        <label for="postContent">Content:</label>
-                        <textarea id="postContent" name="postContent" required></textarea>
-                        <button type="submit">Save Post</button>
-                    </form>
-                </div>
             </div>
         </section>
-        <section id="login" style="display: none;">
-            <h2>Login</h2>
-            <form id="loginForm" onsubmit="login(event)">
-                <label for="loginUsername">Username:</label>
-                <input type="text" id="loginUsername" name="loginUsername" required>
-                <label for="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" name="loginPassword" required>
-                <button type="submit">Login</button>
+        <section id="createPost" style="display: none;">
+            <h2>Create Post</h2>
+            <form id="postForm" onsubmit="createPost(event)">
+                <label for="postTitle">Title:</label>
+                <input type="text" id="postTitle" name="postTitle" required>
+                <label for="postContent">Content:</label>
+                <textarea id="postContent" name="postContent" required></textarea>
+                <button type="submit">Submit</button>
             </form>
-        </section>
-        <section id="help" style="display: none;">
-            <h2>Help/Get Account</h2>
-            <div id="helpOptions">
-                <button onclick="showGetAccount()">Get Account</button>
-                <button onclick="showFeedback()">Send Feedback</button>
-                <button onclick="showHelpMessage()">Help</button>
-            </div>
-            <div id="getAccount" style="display: none;">
-                <form id="getAccountForm" onsubmit="requestAccount(event)">
-                    <label for="requestName">Your Name:</label>
-                    <input type="text" id="requestName" name="requestName" required>
-                    <label for="accountMessage">Message to Admin:</label>
-                    <textarea id="accountMessage" name="accountMessage" required></textarea>
-                    <button type="submit">Send</button>
-                </form>
-            </div>
-            <div id="feedback" style="display: none;">
-                <form id="feedbackForm" onsubmit="sendFeedback(event)">
-                    <label for="feedbackMessage">Your Feedback:</label>
-                    <textarea id="feedbackMessage" name="feedbackMessage" required></textarea>
-                    <button type="submit">Send</button>
-                </form>
-            </div>
-            <div id="helpMessage" style="display: none;">
-                <form id="helpMessageForm" onsubmit="sendHelpMessage(event)">
-                    <label for="helpMessageContent">Your Help Message:</label>
-                    <textarea id="helpMessageContent" name="helpMessageContent" required></textarea>
-                    <button type="submit">Send</button>
-                </form>
-            </div>
-            <div id="adminMessages" style="display: none;">
-                <h3>Messages</h3>
-                <div id="messagesList"></div>
-            </div>
         </section>
     </main>
     <script src="script.js"></script>
