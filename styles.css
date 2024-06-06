@@ -73,13 +73,3 @@ form button {
 form button:hover {
     background-color: #555;
 }
-
-#helpOptions {
-    display: flex;
-    flex-direction: column;
-}
-
-#helpOptions button {
-    margin-bottom: 10px;
-    padding: 10px;
-}
