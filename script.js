@@ -1,3 +1,14 @@
+// Predefined accounts
+const predefinedUsers = {
+    'admin1': 'password123',
+    'user2': 'password456',
+};
+
+// Save predefined users to localStorage if not already present
+if (!localStorage.getItem('users')) {
+    localStorage.setItem('users', JSON.stringify(predefinedUsers));
+}
+
 function showHome() {
     document.getElementById('home').style.display = 'block';
     document.getElementById('register').style.display = 'none';
