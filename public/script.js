@@ -1,10 +1,10 @@
+const API_URL = 'https://<your-vercel-deployment-url>/api/posts';
+
 // Predefined account for simplicity
 const predefinedUser = {
     username: 'admin1',
     password: 'lol'
 };
-
-const API_URL = 'http://localhost:3000/posts';
 
 function showHome() {
     hideAllSections();
@@ -80,15 +80,13 @@ function login(event) {
     const password = document.getElementById('loginPassword').value;
 
     if (username === predefinedUser.username && password === predefinedUser.password) {
-        alert('Login successful');
         document.getElementById('createPostButton').style.display = 'block';
         showHome();
     } else {
-        alert('Invalid username or password');
+        alert('Invalid login credentials.');
     }
 }
 
-// Initialize page
 document.addEventListener('DOMContentLoaded', () => {
     showHome();
 });
