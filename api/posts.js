@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('path');
 const app = express();
-const PORT = 3000;
-const postsFilePath = 'posts.json';
+const postsFilePath = path.join(__dirname, 'posts.json');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -24,13 +24,13 @@ function savePosts(posts) {
 }
 
 // Endpoint to get posts
-app.get('/posts', (req, res) => {
+app.get('/api/posts', (req, res) => {
     const posts = loadPosts();
     res.json(posts);
 });
 
 // Endpoint to create a new post
-app.post('/posts', (req, res) => {
+app.post('/api/posts', (req, res) => {
     const posts = loadPosts();
     const newPost = req.body;
     posts.push(newPost);
@@ -38,6 +38,4 @@ app.post('/posts', (req, res) => {
     res.status(201).json(newPost);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+module.exports = app;
