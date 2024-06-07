@@ -4,6 +4,8 @@ const predefinedUser = {
     password: 'lol'
 };
 
+const API_URL = 'http://localhost:3000/posts';
+
 function showHome() {
     hideAllSections();
     document.getElementById('home').style.display = 'block';
@@ -26,30 +28,50 @@ function hideAllSections() {
     document.getElementById('createPost').style.display = 'none';
 }
 
-function savePosts(posts) {
-    localStorage.setItem('posts', JSON.stringify(posts));
+async function loadPosts() {
+    try {
+        const response = await fetch(API_URL);
+        const posts = await response.json();
+        const postsList = document.getElementById('postsList');
+        postsList.innerHTML = '';
+        posts.forEach((post) => {
+            const postDiv = document.createElement('div');
+            postDiv.innerHTML = `<h4>${post.title}</h4><p>${post.content}</p>`;
+            postsList.appendChild(postDiv);
+        });
+    } catch (error) {
+        console.error('Error loading posts:', error);
+    }
 }
 
-function loadPosts() {
-    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-    const postsList = document.getElementById('postsList');
-    postsList.innerHTML = '';
-    posts.forEach((post) => {
-        const postDiv = document.createElement('div');
-        postDiv.innerHTML = `<h4>${post.title}</h4><p>${post.content}</p>`;
-        postsList.appendChild(postDiv);
-    });
-}
-
-function createPost(event) {
+async function createPost(event) {
     event.preventDefault();
     const title = document.getElementById('postTitle').value;
     const content = document.getElementById('postContent').value;
-    let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-    posts.push({ title, content });
-    savePosts(posts);
-    document.getElementById('postForm').reset();
-    showHome();
+
+    const newPost = {
+        title,
+        content
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newPost)
+        });
+
+        if (response.ok) {
+            document.getElementById('postForm').reset();
+            showHome();
+        } else {
+            console.error('Failed to create post');
+        }
+    } catch (error) {
+        console.error('Error creating post:', error);
+    }
 }
 
 function login(event) {
