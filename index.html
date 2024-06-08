@@ -3,47 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School News</title>
+    <title>Simple Chat Room</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 </head>
 <body>
     <header>
-        <h1>School News</h1>
-        <nav>
-            <button onclick="showHome()">Home</button>
-            <button onclick="showLogin()">Login</button>
-            <button id="createPostButton" style="display: none;" onclick="showCreatePost()">Create Post</button>
-        </nav>
+        <h1>Simple Chat Room</h1>
     </header>
     <main>
-        <section id="home">
-            <h2>Welcome to School News</h2>
-            <p>This is a brief description of the site.</p>
-            <div id="news">
-                <h3>News</h3>
-                <div id="postsList"></div>
-            </div>
-        </section>
-        <section id="login" style="display: none;">
-            <h2>Login</h2>
-            <form id="loginForm" onsubmit="login(event)">
-                <label for="loginUsername">Username:</label>
-                <input type="text" id="loginUsername" name="loginUsername" required>
-                <label for="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" name="loginPassword" required>
-                <button type="submit">Login</button>
-            </form>
-        </section>
-        <section id="createPost" style="display: none;">
-            <h2>Create Post</h2>
-            <form id="postForm" onsubmit="createPost(event)">
-                <label for="postTitle">Title:</label>
-                <input type="text" id="postTitle" name="postTitle" required>
-                <label for="postContent">Content:</label>
-                <textarea id="postContent" name="postContent" required></textarea>
-                <button type="submit">Submit</button>
+        <section id="chatRoom">
+            <h2>Chat Room</h2>
+            <div id="messagesList"></div>
+            <form id="messageForm" onsubmit="sendMessage(event)">
+                <input type="text" id="username" placeholder="Your name" required>
+                <input type="text" id="message" placeholder="Type a message" required>
+                <button type="submit">Send</button>
             </form>
         </section>
     </main>
