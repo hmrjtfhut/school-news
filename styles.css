@@ -12,24 +12,6 @@ header {
     text-align: center;
 }
 
-nav {
-    margin-top: 10px;
-}
-
-nav button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-nav button:hover {
-    background-color: #555;
-}
-
 main {
     padding: 20px;
     max-width: 800px;
@@ -38,12 +20,21 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    margin: 0;
+h1, h2 {
+    margin: 0 0 20px 0;
 }
 
-#news {
-    margin-top: 20px;
+#messagesList {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+}
+
+#messagesList div {
+    margin-bottom: 10px;
 }
 
 form {
@@ -51,12 +42,9 @@ form {
     flex-direction: column;
 }
 
-form label, form input, form button, form textarea {
+form input, form button {
     margin-bottom: 10px;
     padding: 10px;
-}
-
-form input, form textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
