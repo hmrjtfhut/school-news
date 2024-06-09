@@ -1,33 +1,27 @@
 body {
-    font-family: 'Georgia', serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    color: #333;
 }
 
 header {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
     padding: 1em 0;
 }
 
-.header-top {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
 header h1 {
-    font-size: 3em;
     margin: 0;
-    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5em;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
     margin: 1em 0;
+    text-align: center;
 }
 
 nav ul li {
@@ -36,38 +30,26 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #333;
+    color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
 main {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 2em auto;
     padding: 0 1em;
-}
-
-section#news {
-    background-color: #fff;
-    padding: 2em;
-    margin: 1em 0;
+    background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-section#news h2 {
-    font-size: 2em;
-    margin-top: 0;
+.tab-content {
+    display: none;
+    padding: 2em;
 }
 
-article {
-    margin: 1.5em 0;
-    padding-bottom: 1em;
-    border-bottom: 1px solid #ddd;
-}
-
-article h3 {
-    font-size: 1.5em;
-    margin: 0.5em 0;
+.tab-content.active {
+    display: block;
 }
 
 footer {
@@ -75,6 +57,4 @@ footer {
     color: white;
     text-align: center;
     padding: 1em 0;
-    position: relative;
-    width: 100%;
 }
