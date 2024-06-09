@@ -24,14 +24,23 @@
             <article>
                 <h3>School Sports Day</h3>
                 <p>Our annual sports day will be held on June 15th. All students are encouraged to participate.</p>
+                <div class="comments"></div>
+                <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                <button class="comment-button">Comment</button>
             </article>
             <article>
                 <h3>Science Fair</h3>
                 <p>The science fair will take place on June 22nd. Students can showcase their science projects.</p>
+                <div class="comments"></div>
+                <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                <button class="comment-button">Comment</button>
             </article>
             <article>
                 <h3>Summer Vacation</h3>
                 <p>Summer vacation starts on July 1st. School will resume on August 15th.</p>
+                <div class="comments"></div>
+                <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                <button class="comment-button">Comment</button>
             </article>
         </section>
         <section id="info" class="tab-content">
@@ -44,12 +53,20 @@
         </section>
         <section id="login" class="tab-content">
             <h2>Login</h2>
-            <form>
+            <form id="login-form">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required><br><br>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required><br><br>
                 <button type="submit">Login</button>
+            </form>
+            <h2>Register</h2>
+            <form id="register-form">
+                <label for="reg-username">Username:</label>
+                <input type="text" id="reg-username" name="username" required><br><br>
+                <label for="reg-password">Password:</label>
+                <input type="password" id="reg-password" name="password" required><br><br>
+                <button type="submit">Register</button>
             </form>
         </section>
     </main>
