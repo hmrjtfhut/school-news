@@ -8,20 +8,22 @@
 </head>
 <body>
     <header>
-        <div class="header-top">
-            <h1>WLS News</h1>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#news">News</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>WLS News</h1>
+        <nav>
+            <ul>
+                <li><a href="#home" class="tab-link" data-tab="home">Home</a></li>
+                <li><a href="#news" class="tab-link" data-tab="news">News</a></li>
+                <li><a href="#contact" class="tab-link" data-tab="contact">Contact</a></li>
+                <li><a href="#about" class="tab-link" data-tab="about">About</a></li>
+            </ul>
+        </nav>
     </header>
     <main>
-        <section id="news">
+        <section id="home" class="tab-content active">
+            <h2>Welcome to WLS News</h2>
+            <p>Your source for the latest school news and updates.</p>
+        </section>
+        <section id="news" class="tab-content">
             <h2>Latest News</h2>
             <article>
                 <h3>School Sports Day</h3>
@@ -35,6 +37,14 @@
                 <h3>Summer Vacation</h3>
                 <p>Summer vacation starts on July 1st. School will resume on August 15th.</p>
             </article>
+        </section>
+        <section id="contact" class="tab-content">
+            <h2>Contact Us</h2>
+            <p>You can reach us at contact@wlsnews.com.</p>
+        </section>
+        <section id="about" class="tab-content">
+            <h2>About WLS News</h2>
+            <p>WLS News is dedicated to bringing you the latest and most important news from our school.</p>
         </section>
     </main>
     <footer>
