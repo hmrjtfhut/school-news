@@ -1,24 +1,33 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Georgia', serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
     padding: 1em 0;
+}
+
+.header-top {
+    max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
 }
 
 header h1 {
+    font-size: 3em;
     margin: 0;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 1em 0;
 }
 
 nav ul li {
@@ -27,30 +36,37 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: #333;
     text-decoration: none;
+    font-weight: bold;
 }
 
 main {
-    padding: 1em;
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 0 1em;
 }
 
 section#news {
-    background-color: white;
-    padding: 1em;
+    background-color: #fff;
+    padding: 2em;
     margin: 1em 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 section#news h2 {
+    font-size: 2em;
     margin-top: 0;
 }
 
 article {
-    margin: 1em 0;
+    margin: 1.5em 0;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #ddd;
 }
 
 article h3 {
+    font-size: 1.5em;
     margin: 0.5em 0;
 }
 
@@ -59,7 +75,6 @@ footer {
     color: white;
     text-align: center;
     padding: 1em 0;
-    position: absolute;
+    position: relative;
     width: 100%;
-    bottom: 0;
 }
