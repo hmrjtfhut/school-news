@@ -1,9 +1,19 @@
-body {
-    font-family: 'Arial', sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     color: #333;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -51,6 +61,7 @@ nav ul li a:hover {
 }
 
 main {
+    flex: 1;
     max-width: 800px;
     margin: 2em auto;
     padding: 0 1em;
@@ -73,7 +84,5 @@ footer {
     color: white;
     text-align: center;
     padding: 1em 0;
-    position: relative;
     width: 100%;
-    margin-top: 2em;
 }
