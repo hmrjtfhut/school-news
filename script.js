@@ -21,6 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initialize by showing the home tab
-    document.querySelector('.tab-link[data-tab="home"]').click();
+    // Initialize by showing the posts tab
+    document.querySelector('.tab-link[data-tab="posts"]').click();
 });
