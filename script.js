@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     const commentButtons = document.querySelectorAll('.comment-button');
+    const commentInputs = document.querySelectorAll('.comment-input');
     const comments = document.querySelectorAll('.comments');
     let users = [];
     let currentUser = null;
@@ -12,25 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', event => {
             event.preventDefault();
 
-            // Remove active class from all tab contents
             tabContents.forEach(content => content.classList.remove('active'));
-
-            // Remove active class from all tab links
             tabLinks.forEach(link => link.classList.remove('active'));
 
-            // Add active class to the clicked tab link
             link.classList.add('active');
-
-            // Get the target tab content and add active class
             const target = link.getAttribute('data-tab');
             document.getElementById(target).classList.add('active');
         });
     });
 
-    // Initialize by showing the posts tab
     document.querySelector('.tab-link[data-tab="posts"]').click();
 
-    // Handle registration
     registerForm.addEventListener('submit', event => {
         event.preventDefault();
         const username = document.getElementById('reg-username').value;
@@ -45,7 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle login
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
-        const username = document.get
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const user = users.find(user => user.username === username && user.password === password);
+        if (user) {
+            currentUser = user;
+            alert('Login successful.');
+            loginForm.reset();
+        } else {
+            alert('Invalid username orTo implement the login functionality and allow commenting on posts, you need a bit more sophisticated setup. Here is the updated implementation with user accounts and comments');
+        
