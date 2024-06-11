@@ -44,20 +44,13 @@
         </section>
         <section id="games" class="tab-content">
             <h2>Games</h2>
-            <div id="flappy-bird-container">
-                <h3>Flappy Bird</h3>
-                <canvas id="flappyBirdCanvas" width="320" height="480"></canvas>
-                <button id="flappyBirdStartBtn">Start Flappy Bird</button>
-            </div>
-            <div id="dino-game-container">
-                <h3>Chrome Dino Game</h3>
-                <div id="dinoGame"></div>
-                <button id="dinoGameStartBtn">Start Dino Game</button>
-            </div>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="openGame('https://artclass.site/service/hvtrs8%2F-aqsgtq.1kj0%2Cngt-224%3A%2Fknfez.jtol')">2048</a></li>
+                <li><a href="javascript:void(0);" onclick="openGame('https://artclass.site/service/hvtrs8%2F-aqsgtq.1kj0%2Cngt-a%2Fdcnae%2Fod-dipe%2Fald%2Fiae-ildgx%2Chvmn')">A Dance Of Fire And Ice</a></li>
+            </ul>
+            <iframe id="game-frame" style="width: 100%; height: 600px; border: none; display: none;"></iframe>
         </section>
     </main>
     <script src="script.js"></script>
-    <script src="flappyBird.js"></script>
-    <script src="dinoGame.js"></script>
 </body>
 </html>
