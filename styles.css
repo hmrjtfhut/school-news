@@ -86,13 +86,3 @@ article {
 h2 {
     margin-bottom: 1em;
 }
-
-footer {
-    background-color: #294F66;
-    color: white;
-    text-align: center;
-    padding: 1em 0;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-}
