@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabLinks = document.querySelectorAll('.tab-link');
     const tabContents = document.querySelectorAll('.tab-content');
+    const gameFrame = document.getElementById('game-frame');
 
     tabLinks.forEach(link => {
         link.addEventListener('click', event => {
@@ -22,3 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Activate the first tab by default
     tabLinks[0].click();
 });
+
+function openGame(url) {
+    const gameFrame = document.getElementById('game-frame');
+    gameFrame.style.display = 'block';
+    gameFrame.src = 'about:blank';
+    setTimeout(() => gameFrame.src = url, 100);
+}
