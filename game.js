@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (gameUrl !== 'about:blank') {
-        gameFrame.style.display = 'block';
         gameFrame.src = gameUrl;
     }
 });
