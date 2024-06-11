@@ -14,6 +14,7 @@
                 <li><a href="#posts" class="tab-link" data-tab="posts">Posts</a></li>
                 <li><a href="#info" class="tab-link" data-tab="info">Info</a></li>
                 <li><a href="#about" class="tab-link" data-tab="about">About</a></li>
+                <li><a href="#games" class="tab-link" data-tab="games">Games</a></li>
             </ul>
         </nav>
     </header>
@@ -41,7 +42,22 @@
             <h2>About WLS News</h2>
             <p>WLS News is dedicated to bringing you the latest and most important news from our school.</p>
         </section>
+        <section id="games" class="tab-content">
+            <h2>Games</h2>
+            <div id="flappy-bird-container">
+                <h3>Flappy Bird</h3>
+                <canvas id="flappyBirdCanvas" width="320" height="480"></canvas>
+                <button id="flappyBirdStartBtn">Start Flappy Bird</button>
+            </div>
+            <div id="dino-game-container">
+                <h3>Chrome Dino Game</h3>
+                <div id="dinoGame"></div>
+                <button id="dinoGameStartBtn">Start Dino Game</button>
+            </div>
+        </section>
     </main>
     <script src="script.js"></script>
+    <script src="flappyBird.js"></script>
+    <script src="dinoGame.js"></script>
 </body>
 </html>
