@@ -14,7 +14,7 @@
                 <li><a href="#posts" class="tab-link" data-tab="posts">Posts</a></li>
                 <li><a href="#info" class="tab-link" data-tab="info">Info</a></li>
                 <li><a href="#about" class="tab-link" data-tab="about">About</a></li>
-                <li><a href="games.html" class="tab-link" data-tab="games">Games</a></li>
+                <li><a href="#games" class="tab-link" data-tab="games">Games</a></li>
             </ul>
         </nav>
     </header>
@@ -44,10 +44,15 @@
         </section>
         <section id="games" class="tab-content">
             <h2>Games</h2>
-            <ul>
-                <li><a href="game.html?game=2048">2048</a></li>
-                <li><a href="game.html?game=adofai">A Dance Of Fire And Ice</a></li>
-            </ul>
+            <div class="game" data-game="2048">
+                <img src="path/to/2048-image.jpg" alt="2048">
+                <p>2048</p>
+            </div>
+            <div class="game" data-game="adofai">
+                <img src="path/to/adofai-image.jpg" alt="A Dance Of Fire And Ice">
+                <p>A Dance Of Fire And Ice</p>
+            </div>
+            <iframe id="game-frame" style="width: 100%; height: 600px; border: none; display: none;"></iframe>
         </section>
     </main>
     <footer>
