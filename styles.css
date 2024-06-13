@@ -1,3 +1,4 @@
+/* General Reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -83,6 +84,41 @@ article {
     margin-bottom: 2em;
 }
 
-h2 {
+footer {
+    background-color: #294F66;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+#login {
+    width: 400px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+label, input, button {
     margin-bottom: 1em;
+}
+
+button {
+    padding: 0.5em;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00509e;
 }
