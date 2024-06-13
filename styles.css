@@ -111,7 +111,3 @@ footer {
 .game img:hover {
     transform: scale(1.1);
 }
-
-#game-frame {
-    margin-top: 2em;
-}
