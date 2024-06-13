@@ -19,13 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Game loading functionality
     const games = document.querySelectorAll('.game');
-    const gameFrame = document.getElementById('game-frame');
 
     games.forEach(game => {
         game.addEventListener('click', () => {
             const gameName = game.getAttribute('data-game');
             let gameUrl;
-            
+
             switch (gameName) {
                 case '2048':
                     gameUrl = 'https://artclass.site/service/hvtrs8%2F-aqsgtq.1kj0%2Cngt-224%3A%2Fknfez.jtol';
@@ -38,8 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (gameUrl !== 'about:blank') {
-                gameFrame.src = gameUrl;
-                gameFrame.style.display = 'block';
+                window.open(gameUrl, '_blank');
             }
         });
     });
